@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Superposition — AI Safety Interpretability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;INTERPRETABILITY</div>
+  <a class="back" href="../index.html#interp">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>interpretability</span><span class="box bb mono">Anthropic · 2022</span></div>
+  <h1>Superposition</h1>
+  <div class="authors">Elhage et al. (Anthropic) · Toy Models of Superposition</div>
+  <div class="paperlink"><span class="lbl">Source</span><a href="https://transformer-circuits.pub/2022/toy_model/index.html" target="_blank" rel="noopener">Toy Models of Superposition (Anthropic) ↗</a></div>
+  <p class="lead">Superposition is how a network represents <strong>more features than it has neurons</strong> — by encoding features as nearly-orthogonal directions that share dimensions, which makes individual neurons <strong>polysemantic</strong> and resistant to one-neuron-at-a-time interpretation.</p>
+  <h2>The phenomenon</h2>
+  <p>If you assumed one neuron = one concept, an <em>n</em>-neuron layer could only hold <em>n</em> features. Networks routinely beat that bound. They do it by packing <em>m &gt; n</em> features into the activation space as distinct directions. With only <em>n</em> dimensions you can't fit <em>m</em> mutually orthogonal vectors, so the directions are only <strong>nearly</strong> orthogonal — they overlap a little, creating <strong>interference</strong>. The visible symptom is polysemanticity:</p>
+  <ul>
+    <li>A single neuron fires for several <strong>unrelated</strong> features (e.g. an academic-citation pattern and a Korean-text pattern), because multiple feature directions project onto it.</li>
+    <li>Meaning lives in <strong>directions across the population</strong>, not in axis-aligned neurons — so reading a model neuron-by-neuron is reading the wrong basis.</li>
+  </ul>
+  <h2>Why it happens</h2>
+  <p>The lever is <strong>sparsity</strong>: real features fire rarely, so two features sharing a direction seldom activate at once, and the interference cost stays low. Under sparsity the network trades a little noise for a lot of capacity — Elhage et al. show you can pack exponentially many sparse features into a fixed space. The toy model makes the tradeoff legible: sweeping feature sparsity reveals a clean <strong>phase change</strong>. Dense features get dedicated orthogonal dimensions (no superposition); past a sparsity threshold the model abruptly switches to packing features in superposition, arranging them in structured geometric configurations (e.g. antipodal pairs, pentagons) to minimize interference.</p>
+  <h2>Why it's the central obstacle</h2>
+  <p>Superposition is <strong>why naive interpretability fails</strong>. If neurons were monosemantic you could label them and read the model off directly; because they're polysemantic, no neuron-level story is faithful — the features you want are linear combinations hidden in the activations. This is the core motivation for <strong>sparse autoencoders</strong>, which learn an overcomplete, sparse basis to <em>un-mix</em> superposition back into monosemantic features you can actually name. See <a href="sparse-autoencoders.html">Sparse Autoencoders</a>.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

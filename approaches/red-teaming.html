@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Red Teaming — AI Safety Approaches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;APPROACHES</div>
+  <a class="back" href="../index.html#approaches">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>alignment approaches</span><span class="box wb mono">adversarial</span></div>
+  <h1>Red Teaming</h1>
+  <div class="authors">adversarial testing for safety</div>
+  <div class="paperlink"><span class="lbl">Key paper</span><a href="https://arxiv.org/abs/2202.03286" target="_blank" rel="noopener">Red Teaming LMs with LMs (Perez et al.) ↗</a></div>
+  <p class="lead">Red teaming is the deliberate hunt for inputs that make a model misbehave — the offensive complement to alignment training, run before deployment to surface harms the model wasn't trained out of.</p>
+  <h2>What it is</h2>
+  <p>Red teaming probes a model adversarially to find the prompts that elicit harmful, unsafe, or off-policy behavior — toxic output, leaked private data, dangerous instructions, prompt-injection compliance. It blends <strong>manual</strong> and <strong>automated</strong> methods:</p>
+  <ul>
+    <li><strong>Manual</strong> — humans craft adversarial prompts, jailbreaks, and edge cases by hand. High signal, low coverage, expensive.</li>
+    <li><strong>Automated</strong> — Perez et al. (2022) use one LM to <em>generate</em> test cases against another, then a classifier to score the responses. This scaled to tens of thousands of offensive replies, leaked phone numbers, and distributional bias surfaced from a 280B-parameter chatbot — coverage no manual team could match.</li>
+  </ul>
+  <p>It is now a standard gate in every frontier release process, not an optional afterthought.</p>
+  <h2>Why it's a safety technique, not just security</h2>
+  <p>Security testing asks "can an attacker break in?" Red teaming for AI asks a broader question: "does this model do harmful things, including ones nobody intended to exploit?" That makes it a <strong>safety</strong> tool:</p>
+  <ul>
+    <li>It finds <strong>alignment failures that benign behavioral evals miss</strong> — a model that looks helpful and harmless on curated benchmarks can still be steered into harm under adversarial pressure.</li>
+    <li>It <strong>informs capability thresholds in Responsible Scaling Policies</strong> — you can't gate on dangerous capabilities you haven't tried to elicit. Red teaming is how labs measure whether a model crosses a dangerous-capability line.</li>
+    <li>It <strong>complements alignment training rather than replacing it</strong>: RLHF and similar methods push the average case toward safe behavior; red teaming maps the worst case. Findings feed back as new training data, closing the loop.</li>
+  </ul>
+  <h2>Go deeper</h2>
+  <p>This page is the safety-framing view. For the attack craft itself — how the probes are actually built — there's a full companion field map: <a class="lnk" href="https://idvorkin-ai-tools.github.io/red-teaming-ramp-up/" target="_blank" rel="noopener">Red Teaming Models — A Ramp-Up Map ↗</a> (OWASP LLM Top 10, the jailbreak canon — GCG, PAIR, Crescendo — tooling like Garak/PyRIT/Promptfoo, and how to measure attack success rates rather than chase one lucky jailbreak).</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

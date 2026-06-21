@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Weak-to-Strong Generalization — Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;CANON</div>
+  <a class="back" href="../index.html#canon">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>the canon</span><span class="box bb mono">paper · 2023</span></div>
+  <h1>Weak-to-Strong Generalization</h1>
+  <div class="authors">Burns et al. (OpenAI) · 2023</div>
+  <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2312.09390" target="_blank" rel="noopener">Weak-to-Strong Generalization (arXiv) ↗</a></div>
+  <p class="lead">An empirical study of whether a <strong>weak</strong> supervisor can elicit the latent capabilities of a <strong>stronger</strong> model — a tractable stand-in for the future problem of humans overseeing superhuman AI.</p>
+  <h2>The setup</h2>
+  <p>The core experiment is a deliberate capability inversion. Instead of using ground-truth labels, the authors:</p>
+  <ul>
+    <li>Fine-tune a small, weak model (e.g. GPT-2-scale) on the ground-truth task to act as the <strong>supervisor</strong>.</li>
+    <li>Generate labels from that weak supervisor — labels that contain its mistakes.</li>
+    <li>Fine-tune a much stronger model (up to GPT-4-scale) <em>only</em> on those flawed weak labels.</li>
+  </ul>
+  <p>They evaluate across NLP classification, chess puzzles, and reward modeling, scoring with the <strong>performance gap recovered (PGR)</strong>: the fraction of the gap between weak-supervisor and strong-ceiling (ground-truth-trained) performance that the weakly-supervised strong model actually closes. 0% means it learned nothing beyond the weak teacher; 100% means it matched a strong model trained on real labels.</p>
+  <h2>Why it's an alignment analogy</h2>
+  <p>The relation <strong>weak supervisor : strong model</strong> is proposed as an analogy for <strong>humans : future superhuman models</strong>. When AI exceeds human ability on a task, our supervision signals become the "weak labels" — error-prone, incomplete, sometimes systematically wrong. The question of whether a strong model can still do the right thing despite imperfect human oversight is the central problem of <strong>scalable oversight</strong> and <strong>superalignment</strong>. This paper turns that abstract worry into a measurable benchmark you can run today.</p>
+  <h2>The findings</h2>
+  <p>The results are encouraging but explicitly partial — the authors are careful not to overclaim:</p>
+  <ul>
+    <li>Strong models <strong>generalize beyond their weak supervisor's errors</strong>: weakly-supervised GPT-4-scale models often beat the weak teacher, recovering a substantial fraction of the gap on NLP tasks rather than just imitating the mistakes.</li>
+    <li>Recovery is <strong>far from complete</strong>, especially for reward modeling, and naive fine-tuning leaves a lot of latent capability unrecovered.</li>
+    <li>Simple <strong>auxiliary methods help</strong> — e.g. an auxiliary confidence loss that encourages the strong model to make confident predictions even when they disagree with the weak labels — sometimes lifting PGR substantially.</li>
+    <li>This is a <strong>research testbed, not a solution</strong>. The analogy has known disanalogies, the gains are method- and task-dependent, and weak-to-strong generalization is presented as a problem to make progress on, not one that is solved.</li>
+  </ul>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+</body>
+</html>

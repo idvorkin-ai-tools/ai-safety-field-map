@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>METR — AI Safety Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;EVALS</div>
+  <a class="back" href="../index.html#evals">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>evals &amp; dangerous capabilities</span><span class="box bb mono">the third party</span></div>
+  <h1>METR</h1>
+  <div class="authors">Model Evaluation &amp; Threat Research</div>
+  <div class="paperlink"><span class="lbl">Org</span><a href="https://metr.org/" target="_blank" rel="noopener">METR ↗</a></div>
+  <p class="lead">An independent nonprofit that scientifically measures whether and when frontier AI systems acquire the autonomous, agentic capabilities that could pose catastrophic risk.</p>
+  <h2>What they do</h2>
+  <p>METR runs <strong>independent, third-party evaluations</strong> of frontier models, focused on autonomous task completion and the capacity to accelerate AI R&amp;D — the capability dimensions most relevant to catastrophic risk. They build agentic task suites with calibrated human baselines and run them as structured experiments rather than one-off demos. They partner with labs for <strong>pre-deployment access</strong> (OpenAI, Anthropic, xAI have provided model access and compute), but <strong>take no compensation</strong> for the work and also evaluate models independently after release. That independence is the point: the goal is an outside read on capability, not a vendor benchmark.</p>
+  <h2>The time-horizon metric</h2>
+  <p>Their signature result is the <strong>50%-task-completion time horizon</strong>: the length of a task — measured by how long it takes a human professional — that a model can complete autonomously with <strong>~50% reliability</strong>. It collapses a model's agentic capability into one human-time number, which makes models comparable across a single trend line rather than a grab-bag of pass-rates.</p>
+  <ul>
+    <li>METR's finding: this 50%-reliability horizon has <strong>roughly doubled about every 7 months over the past ~6 years</strong> (they note the trend may have accelerated since 2024).</li>
+    <li>The measure is reliability-dependent — the 80% horizon (tasks done 4-out-of-5 times) is meaningfully shorter than the 50% one.</li>
+    <li>It's an empirical trend on their task distribution, not a law; whether it generalizes to messy real-world work is an open extrapolation, which is why the precise definition matters.</li>
+  </ul>
+  <h2>Why it matters</h2>
+  <p>Independent evaluation is load-bearing for the governance scaffolding around frontier AI. Responsible Scaling Policies and government oversight both lean on capability thresholds — and a lab grading its own homework is a weak check. An outside evaluator with reproducible methods and a quantitative trend line gives that scaffolding something concrete to anchor to, and gives the rest of us an external check on lab self-assessment.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

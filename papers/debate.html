@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Safety via Debate — Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;CANON</div>
+  <a class="back" href="../index.html#canon">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>the canon</span><span class="box bb mono">paper · 2018</span></div>
+  <h1>AI Safety via Debate</h1>
+  <div class="authors">Irving, Christiano, Amodei · 2018</div>
+  <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/1805.00899" target="_blank" rel="noopener">AI safety via debate (arXiv) ↗</a></div>
+  <p class="lead">Train two agents to argue opposite sides of a question and let a human judge pick the winner — betting that <strong>checking an argument is easier than producing the right answer</strong>, so a weaker judge can still supervise a stronger system.</p>
+  <h2>The idea</h2>
+  <p>Two AI agents play a zero-sum game: they take turns making statements about a question or proposed action, and a human judge declares which one was more truthful and useful. The agents are trained by self-play to win that game. The paper's load-bearing intuition is complexity-theoretic — under optimal play, debate with a polynomial-time judge can decide questions in <strong>PSPACE</strong>, far more than the judge could answer alone (NP-style "show me the answer"). Adversarial pressure is what does the work: a dishonest agent's best move is exploitable by an honest opponent who can point the judge at the flaw, so the judge only has to evaluate the <em>local</em> step where the disagreement bottoms out, not reconstruct the whole answer.</p>
+  <h2>Why it's a scalable-oversight proposal</h2>
+  <p>Scalable oversight asks: how do you train a system that knows more than its supervisor? Debate is one answer — the judge never has to <em>generate</em> the correct answer, only adjudicate a contested chain produced by experts incentivized to expose each other.</p>
+  <ul>
+    <li><strong>Decomposition without a tree of humans.</strong> Like <strong>IDA</strong> (iterated distillation and amplification) and recursive reward modeling, debate breaks a hard judgment into pieces a human can check; unlike IDA it uses adversarial competition rather than recursive delegation to surface the pieces.</li>
+    <li><strong>Amplifies a fixed judge.</strong> The human's capability is held constant; the leverage comes from the game structure, not from the human getting smarter.</li>
+    <li><strong>Empirical handle.</strong> The paper includes an MNIST toy: agents reveal pixels to argue a digit's class, lifting a sparse 6-pixel classifier from 59.4% to 88.9% — a concrete demonstration that adversarial play can steer a judge toward truth.</li>
+  </ul>
+  <h2>The open problems</h2>
+  <p>The mechanism only works if the judge is reliably swayed toward truth — and that assumption is fragile:</p>
+  <ul>
+    <li><strong>Persuasion ≠ truth.</strong> A sufficiently capable arguer may win with manipulative or emotionally exploitative rhetoric the judge can't resist; the equilibrium rewards <em>convincing</em>, not <em>correct</em>.</li>
+    <li><strong>Obfuscated arguments.</strong> Later theoretical work showed a dishonest debater can bury an error inside a large argument where neither side can cheaply localize the flaw, breaking the "just check the disputed step" guarantee.</li>
+    <li><strong>Judge limitations and biases</strong> bound the whole scheme — debate inherits every blind spot of the human at the top.</li>
+    <li><strong>Later empirical debate work</strong> (e.g. human and LLM-judge studies on reading-comprehension and QA tasks) found debate helps on some setups but is inconsistent, and that stronger debaters don't always make judges more accurate.</li>
+  </ul>
+  <h2>Why it's in the canon</h2>
+  <p>Debate framed scalable oversight as a <em>game-theoretic</em> problem and gave it a crisp complexity-theory backbone, sitting alongside IDA and recursive reward modeling as a foundational proposal for supervising superhuman systems. It remains actively researched — both its failure modes (obfuscated arguments) and its empirical viability (LLM-judge debate experiments) are live questions a decade of follow-up work is still chasing.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+</body>
+</html>

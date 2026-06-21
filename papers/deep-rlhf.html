@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deep RL from Human Preferences — Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;CANON</div>
+  <a class="back" href="../index.html#canon">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>the canon</span><span class="box bb mono">paper · 2017</span></div>
+  <h1>Deep RL from Human Preferences</h1>
+  <div class="authors">Christiano, Leike, Brown, Martic, Legg, Amodei · 2017</div>
+  <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep RL from Human Preferences (arXiv) ↗</a></div>
+  <p class="lead">Instead of hand-coding a reward function, learn one: fit a reward model to humans' pairwise comparisons of short behavior clips, then optimize a policy against that learned reward.</p>
+  <h2>What it showed</h2>
+  <p>A deep RL agent can master tasks with <strong>no access to the true reward</strong>, supervised only by a human picking which of two ~1–2 second trajectory clips looks better. The comparisons train a reward model that stands in for the environment reward. With this signal the method:</p>
+  <ul>
+    <li>Matched or beat reward-trained baselines on most Atari and MuJoCo (simulated robot) tasks using feedback on under 1% of the agent's interactions.</li>
+    <li>Taught behaviors with <strong>no natural reward function at all</strong> — the canonical example being a simulated Hopper learning a <strong>backflip</strong> from roughly 900 human comparisons (about an hour of a non-expert's time).</li>
+  </ul>
+  <h2>How it works</h2>
+  <p>The system runs a loop with three components kept in sync:</p>
+  <ul>
+    <li><strong>Collect clips</strong> — the current policy acts; pairs of trajectory segments are sampled and shown to a human.</li>
+    <li><strong>Human compares</strong> — the rater picks the better clip (or marks them equal/incomparable). No scores, no demonstrations — just preferences.</li>
+    <li><strong>Fit the reward model</strong> — a network <em>r̂</em> is trained so that the clip the human preferred gets higher predicted return, via a Bradley–Terry / softmax loss over the pair.</li>
+    <li><strong>Optimize the policy</strong> — standard deep RL (A2C / TRPO) maximizes the <em>predicted</em> reward, generating fresh, on-distribution clips for the next round.</li>
+  </ul>
+  <p>Comparisons are far more sample-efficient than they look: a few hundred to a few thousand binary judgments shape behavior that would otherwise need a carefully engineered, often-gameable reward function. Asking "which is better?" is also cheaper and more robust for humans than assigning absolute numeric rewards.</p>
+  <h2>Why it mattered</h2>
+  <p>This is the technical seed of <strong>RLHF</strong>. The exact recipe — a reward model learned from human preference comparisons, then policy optimization against it — is what later scaled to language models in InstructGPT and became the dominant approach to aligning modern LLMs with human intent.</p>
+  <ul>
+    <li><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">InstructGPT — Training language models to follow instructions with human feedback (arXiv 2203.02155) ↗</a></li>
+  </ul>
+  <h2>Limits</h2>
+  <p>The learned reward is only ever as good as the comparisons behind it. Humans must be able to <strong>judge</strong> the clips they see, so the method is bounded by what a rater can evaluate in a short window — and a policy will happily exploit gaps where the reward model misjudges (reward hacking). Tasks too complex, slow, or subtle for a human to assess from a clip fall outside its reach, which is precisely the gap that motivates <strong>scalable oversight</strong>.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+</body>
+</html>

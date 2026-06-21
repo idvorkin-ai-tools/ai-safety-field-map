@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Constitutional AI — Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;CANON</div>
+  <a class="back" href="../index.html#canon">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>the canon</span><span class="box bb mono">paper · 2022</span></div>
+  <h1>Constitutional AI</h1>
+  <div class="authors">Bai et al. (Anthropic) · 2022</div>
+  <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">Constitutional AI: Harmlessness from AI Feedback (arXiv) ↗</a></div>
+  <p class="lead">Align a model to a short written set of principles — a <strong>constitution</strong> — by having the model supply its own harmlessness feedback, so humans no longer need to label every harmful prompt by hand.</p>
+  <h2>How it works</h2>
+  <p>Two phases turn a helpful-but-unaligned model into a harmless one using almost no human harm labels:</p>
+  <ul>
+    <li><strong>Supervised stage (critique &amp; revise).</strong> Prompt the model on red-team inputs, then ask it to <strong>critique its own response</strong> against a sampled constitutional principle and <strong>rewrite</strong> it. Finetune on the revised answers. This shifts the model's distribution toward safe outputs before any RL.</li>
+    <li><strong>RL stage (RLAIF).</strong> The model generates pairs of responses and <strong>labels which is more harmless</strong> — again guided by the constitution. Those AI preferences train a preference (reward) model, which then drives standard RL. Human feedback still supplies <strong>helpfulness</strong>; harmlessness comes from AI feedback.</li>
+  </ul>
+  <h2>Why it mattered</h2>
+  <p>It scales harmlessness without a human in the loop for every harmful case, and it makes the target values <strong>explicit and editable</strong> — a few dozen written principles instead of a frozen blob of crowdworker labels. It also reduced the helpful/harmless tradeoff: models could refuse less evasively and explain their objections. CAI became a public, named basis for how Claude is trained.</p>
+  <h2>Limits &amp; critiques</h2>
+  <p>The method is only as good as the constitution plus the base model's own judgment — if the model misreads a principle, the error propagates with no human checkpoint. <strong>Who writes the constitution</strong>, and whose values it encodes, is a governance question the technique doesn't answer. And it targets behavioral harmlessness on observed prompts; it is <strong>not</strong> a defense against deceptive alignment or a model that has learned to look harmless while pursuing other goals.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+</body>
+</html>

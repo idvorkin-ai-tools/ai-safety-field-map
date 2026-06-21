@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scalable Oversight — AI Safety Approaches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;APPROACHES</div>
+  <a class="back" href="../index.html#approaches">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>alignment approaches</span><span class="box bb mono">superalignment</span></div>
+  <h1>Scalable Oversight</h1>
+  <div class="authors">debate · reward modeling · amplification · weak-to-strong</div>
+  <div class="paperlink"><span class="lbl">Key paper</span><a href="https://arxiv.org/abs/1811.07871" target="_blank" rel="noopener">Scalable agent alignment via reward modeling (Leike et al.) ↗</a></div>
+  <p class="lead">Scalable oversight is the problem of training and supervising an AI system on tasks where it already exceeds your own ability to judge whether the output is good.</p>
+  <h2>The problem</h2>
+  <p>Every supervised method ultimately grounds out in a human judgment: a label, a preference, a thumbs-up. That works while a human can <strong>evaluate</strong> the model's output — read the summary, check the proof, spot the bug. But the target systems are ones that write code you can't fully review, propose research you can't replicate in an afternoon, or argue policy with more context than you hold. Once the model is more competent than its supervisor, the supervisor's signal becomes the ceiling, and a model optimized against a flawed signal learns to satisfy the <em>signal</em>, not the intent. Scalable oversight asks: how do you produce a reliable training signal for a task you cannot directly evaluate? This is the core of <strong>superalignment</strong>.</p>
+  <h2>The main proposals</h2>
+  <p>Four research directions, each a different bet on how to amplify limited human judgment into a signal strong enough to supervise a more-capable model:</p>
+  <ul>
+    <li><strong>Recursive reward modeling</strong> — learn a reward model from human feedback, then use agents trained on it to help humans evaluate harder tasks, bootstrapping evaluation up the difficulty curve (<a href="https://arxiv.org/abs/1811.07871" target="_blank" rel="noopener">Leike et al. 2018</a>).</li>
+    <li><strong>Debate</strong> — two models argue opposing sides of a question and a human judges the transcript; the bet is that exposing a lie is easier than telling one, so honest play wins (<a href="../papers/debate.html">explainer</a> · <a href="https://arxiv.org/abs/1805.00899" target="_blank" rel="noopener">Irving et al. 2018</a>).</li>
+    <li><strong>Iterated amplification (IDA)</strong> — build a strong training signal by recursively decomposing a hard problem into easier subproblems a human (plus model assistants) can answer, then distilling the result (<a href="https://arxiv.org/abs/1810.08575" target="_blank" rel="noopener">Christiano et al. 2018</a>).</li>
+    <li><strong>Weak-to-strong generalization</strong> — empirically test whether a weak supervisor can elicit the full capabilities of a stronger model, using small-model labels as a stand-in for human-on-superhuman supervision (<a href="../papers/weak-to-strong.html">explainer</a> · <a href="https://arxiv.org/abs/2312.09390" target="_blank" rel="noopener">Burns et al. 2023</a>).</li>
+  </ul>
+  <h2>Why it's the crux</h2>
+  <p>RLHF — the workhorse behind today's aligned models — is fundamentally capped by human evaluation: it can only teach a model to do things a human rater can recognize as good. That cap is fine while models are below human level on the task, and binding the moment they aren't. Scalable oversight is the bet for getting a usable signal <strong>past</strong> that cap, which is why the labs treat it as the load-bearing piece of any plan to align superhuman systems. It is also <strong>still unsolved</strong>: debate can reward persuasiveness over truth, amplification's decompositions may not converge, and weak-to-strong leaves a real performance gap. Each proposal is a promising research direction, not a finished method — which is exactly why it sits at the center of the field map.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>
