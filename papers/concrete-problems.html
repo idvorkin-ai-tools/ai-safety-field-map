@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Concrete Problems in AI Safety — Canon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;CANON</div>
+  <a class="back" href="../index.html#canon">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>the canon</span><span class="box bb mono">paper · 2016</span></div>
+  <h1>Concrete Problems in AI Safety</h1>
+  <div class="authors">Amodei, Olah, Steinhardt, Christiano, Schulman, Mané · 2016</div>
+  <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">Concrete Problems in AI Safety (arXiv) ↗</a></div>
+  <p class="lead">A research agenda that recasts "AI safety" as five tractable engineering problems about <strong>accidents</strong> — unintended, harmful behavior emerging from poorly specified objectives or poorly understood learning — in real machine-learning systems.</p>
+  <h2>The five problems</h2>
+  <p>The paper groups failures by where the misbehavior comes from — the wrong objective, an objective too costly to evaluate, or the learning process itself:</p>
+  <ul>
+    <li><strong>Avoiding negative side effects</strong> — don't disrupt the environment in pursuit of a narrow goal (the cleaning robot that knocks over a vase). Wrong objective: under-specified.</li>
+    <li><strong>Avoiding reward hacking</strong> — don't game a proxy reward instead of achieving the intended outcome. Wrong objective: exploitable.</li>
+    <li><strong>Scalable oversight</strong> — train effectively when the true objective is too expensive to evaluate on every action, using limited human feedback efficiently.</li>
+    <li><strong>Safe exploration</strong> — let an agent try new behaviors to learn without taking catastrophic or irreversible actions along the way.</li>
+    <li><strong>Robustness to distributional shift</strong> — behave well, and recognize when it doesn't, on inputs that differ from the training distribution.</li>
+  </ul>
+  <h2>Why it mattered</h2>
+  <p>It moved safety from speculative, sci-fi "superintelligence" framing into <strong>concrete ML failure modes</strong> a working researcher could study today with current systems. It supplied the field's shared vocabulary — "reward hacking," "side effects," "distributional shift," "scalable oversight" — and made the case that these problems are forward-looking but already empirically attackable, not contingent on future AGI.</p>
+  <h2>Where it stands now</h2>
+  <p>All five remain live, and they map cleanly onto today's frontier-LLM failure modes. <strong>Reward hacking</strong> and <strong>scalable oversight</strong> are now central to RLHF and the agenda around RLAIF, debate, and weak-to-strong generalization — humans can't reliably grade superhuman outputs. <strong>Distributional shift</strong> reappears as jailbreaks, prompt injection, and out-of-distribution refusal failures. <strong>Side effects</strong> and <strong>safe exploration</strong> are increasingly acute as models gain tool use and act as autonomous agents. The taxonomy aged well; the open questions just moved up the capability curve.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mechanistic Interpretability — AI Safety</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;INTERPRETABILITY</div>
+  <a class="back" href="../index.html#interp">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>interpretability</span><span class="box bb mono">the program</span></div>
+  <h1>Mechanistic Interpretability</h1>
+  <div class="authors">reverse-engineering the weights</div>
+  <div class="paperlink"><span class="lbl">Source</span><a href="https://distill.pub/2020/circuits/zoom-in/" target="_blank" rel="noopener">Olah et al., “Zoom In: An Introduction to Circuits” (Distill, 2020) ↗</a></div>
+  <p class="lead">Mechanistic interpretability is the project of treating a trained network's weights as a compiled program and decompiling it — recovering the human-understandable algorithms it learned, rather than just observing what it outputs.</p>
+  <h2>The goal</h2>
+  <p>Behavioral testing tells you <strong>what</strong> a model does on the inputs you tried; it says nothing about the mechanism, so it can't rule out a model that behaves on your evals and misbehaves elsewhere. Mechanistic interpretability aims for the <strong>inside view</strong>: identify the actual internal computation — which units represent what, and how they combine — so claims about a model rest on its wiring, not on a finite sample of its behavior.</p>
+  <h2>Core concepts</h2>
+  <p>The Zoom In agenda rests on three claims that, if true, make the network legible:</p>
+  <ul>
+    <li><strong>Features</strong> — meaningful directions in activation space (a curve detector, a "dog ear," a sentiment direction). The bet is that these are real units of computation, not analyst projections. In practice features are often tangled by <a href="superposition.html">superposition</a>, where a layer packs more features than it has neurons.</li>
+    <li><strong>Circuits</strong> — computational subgraphs that connect features through the weights, implementing a legible algorithm (e.g. assembling curves into a circle). See <a href="circuits.html">circuits</a> for the worked examples.</li>
+    <li><strong>Universality</strong> — analogous features and circuits recur across different models and tasks, so findings generalize rather than being one-offs.</li>
+  </ul>
+  <h2>Why it matters for safety</h2>
+  <p>If hidden goals or deceptive alignment leave a mechanistic fingerprint, circuit-level analysis could surface it even when behavioral evals are clean — an inside-view check on whether a model's stated reasoning matches its actual computation. That is the load-bearing safety case: a lie detector that reads the wiring, not the answers.</p>
+  <h2>The honest status</h2>
+  <p>This is promising but immature. Most rigorous results are on small models or narrow circuits; <strong>no one can currently decompile a frontier model end-to-end</strong>, and coverage of any large model is partial and labor-intensive. Superposition and scale remain open obstacles. Treat mechanistic interpretability as a serious bet on a hard problem — a direction with real early wins, not a deployed audit you can rely on today.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Safety — A Field Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0C0F;
+    --panel:#13171D;
+    --panel-2:#171C23;
+    --line:#262C35;
+    --line-soft:#1d232b;
+    --ink:#E7EBF1;
+    --ink-mid:#AEB6C2;
+    --ink-dim:#737D8B;
+    --off:#F5A524;        /* CAPABILITY — raw power / risk */
+    --off-bright:#FFC25A;
+    --def:#35CFE0;        /* ALIGNMENT — control / safety */
+    --def-deep:#1f9aa8;
+    --crit:#E5484D;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(900px 500px at 85% -10%, rgba(245,165,36,.06), transparent 60%),
+      radial-gradient(900px 600px at -10% 30%, rgba(53,207,224,.05), transparent 55%);
+    background-attachment:fixed;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:inherit}
+  a.lnk{color:inherit;text-decoration:underline;text-decoration-color:var(--ink-dim);
+    text-underline-offset:2px;text-decoration-thickness:1px;transition:.15s}
+  a.lnk:hover{text-decoration-color:var(--def);color:var(--ink)}
+
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(10,12,15,.82);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:11px 22px;}
+  .brand{font-family:"IBM Plex Mono";font-weight:700;font-size:13px;letter-spacing:.02em;
+    color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:8px}
+  .brand .dot{width:8px;height:8px;border-radius:2px;
+    background:linear-gradient(135deg,var(--off),var(--def));box-shadow:0 0 12px rgba(245,165,36,.5)}
+  .nav-links{display:flex;gap:3px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{font-family:"IBM Plex Mono";font-size:11.5px;color:var(--ink-dim);
+    text-decoration:none;padding:6px 9px;border-radius:6px;white-space:nowrap;transition:.15s}
+  .nav-links a:hover{color:var(--ink);background:var(--panel)}
+
+  main{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  section{padding:74px 0;border-bottom:1px solid var(--line-soft)}
+  section:last-of-type{border-bottom:none}
+
+  .eyebrow{font-family:"IBM Plex Mono";font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-dim);display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .eyebrow .idx{color:var(--off)}
+  h2{font-family:"IBM Plex Mono";font-weight:600;font-size:clamp(24px,3.4vw,34px);
+    line-height:1.15;margin:0 0 14px;letter-spacing:-.01em}
+  h3{font-family:"IBM Plex Mono";font-weight:600;font-size:16px;margin:0 0 6px;letter-spacing:.01em}
+  p{margin:0 0 16px;color:var(--ink-mid);max-width:68ch}
+  p strong{color:var(--ink);font-weight:600}
+  .lead{font-size:18px;color:var(--ink)}
+  .legend-tag{font-family:"IBM Plex Mono";font-size:11px;padding:2px 7px;border-radius:5px;
+    border:1px solid;white-space:nowrap;font-weight:500}
+  .t-off{color:var(--off-bright);border-color:rgba(245,165,36,.35);background:rgba(245,165,36,.07)}
+  .t-def{color:var(--def);border-color:rgba(53,207,224,.35);background:rgba(53,207,224,.07)}
+
+  .hero{padding:96px 0 84px;border-bottom:1px solid var(--line-soft)}
+  .hero .kicker{font-family:"IBM Plex Mono";font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-dim);margin-bottom:26px}
+  .hero h1{font-family:"IBM Plex Mono";font-weight:700;font-size:clamp(34px,6.2vw,62px);
+    line-height:1.04;margin:0 0 8px;letter-spacing:-.02em}
+  .hero h1 .neg{color:var(--off)}
+  .hero h1 .pos{color:var(--def)}
+  .hero .sub{font-size:19px;color:var(--ink-mid);max-width:62ch;margin-top:22px}
+  .prompt-line{font-family:"IBM Plex Mono";font-size:14px;color:var(--ink-dim);
+    margin-top:34px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .prompt-line .pmt{color:var(--off)}
+  .cursor{display:inline-block;width:9px;height:17px;background:var(--def);margin-left:2px;
+    animation:blink 1.1s steps(2,start) infinite;vertical-align:-2px}
+  @keyframes blink{to{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.cursor{animation:none}}
+  .legend{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap}
+
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px 16px;transition:.18s}
+  .card:hover{border-color:#33404e;transform:translateY(-2px)}
+  .card .num{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);letter-spacing:.08em;margin-bottom:8px}
+  .card p{font-size:14px;margin:0;max-width:none;color:var(--ink-dim)}
+  .card.off{border-top:2px solid var(--off)}
+  .card.def{border-top:2px solid var(--def)}
+
+  .row{display:grid;grid-template-columns:170px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line-soft)}
+  .row:first-of-type{border-top:none}
+  @media(max-width:620px){.row{grid-template-columns:1fr;gap:4px}}
+  .row .name{font-family:"IBM Plex Mono";font-weight:600;font-size:14px;color:var(--ink)}
+  .row .name .yr{display:block;font-weight:400;font-size:11px;color:var(--ink-dim);margin-top:3px}
+  .row .desc{font-size:14px;color:var(--ink-mid);max-width:64ch}
+
+  .road{margin-top:8px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .road-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--panel-2)}
+  .road-head .ttl{font-family:"IBM Plex Mono";font-size:13px;letter-spacing:.04em;color:var(--ink)}
+  .meter{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .meter .bar{width:120px;height:7px;border-radius:4px;background:#0e1115;overflow:hidden;border:1px solid var(--line)}
+  .meter .fill{height:100%;width:0;background:linear-gradient(90deg,var(--off),var(--def));transition:width .4s ease}
+  .meter .pct{font-family:"IBM Plex Mono";font-size:12px;color:var(--ink-dim);min-width:34px;text-align:right}
+  .phase{padding:14px 20px;border-top:1px solid var(--line-soft)}
+  .phase:first-child{border-top:none}
+  .phase .ph{font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--off);margin-bottom:4px}
+  .phase .ph .wk{color:var(--ink-dim);margin-left:8px;letter-spacing:.04em}
+  .task{display:flex;gap:12px;padding:9px 0;cursor:pointer;align-items:flex-start;border-top:1px solid var(--line-soft)}
+  .task:first-of-type{border-top:none}
+  .box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--ink-dim);flex-shrink:0;margin-top:2px;
+    display:flex;align-items:center;justify-content:center;transition:.15s}
+  .box svg{width:11px;height:11px;opacity:0;transition:.15s}
+  .task.done .box{background:var(--def);border-color:var(--def)}
+  .task.done .box svg{opacity:1}
+  .task.done .txt{color:var(--ink-dim);text-decoration:line-through;text-decoration-color:var(--def-deep)}
+  .task .txt{font-size:14.5px;color:var(--ink);line-height:1.45}
+  .task .txt em{font-style:normal;color:var(--ink-dim);font-size:13px;display:block;margin-top:2px}
+
+  .src{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-top:6px}
+  @media(max-width:680px){.src{grid-template-columns:1fr}}
+  .src a{font-size:13.5px;color:var(--ink-mid);text-decoration:none;padding:7px 0;border-top:1px solid var(--line-soft);display:flex;gap:9px;transition:.15s}
+  .src a:hover{color:var(--def)}
+  .src a .k{font-family:"IBM Plex Mono";font-size:11px;color:var(--ink-dim);min-width:18px}
+
+  footer{max-width:var(--maxw);margin:0 auto;padding:34px 22px 60px;color:var(--ink-dim);font-size:12.5px;font-family:"IBM Plex Mono"}
+  .callout{border-left:2px solid var(--off);background:rgba(245,165,36,.05);padding:14px 18px;border-radius:0 10px 10px 0;margin:18px 0;font-size:14.5px;color:var(--ink-mid)}
+  .callout.def{border-left-color:var(--def);background:rgba(53,207,224,.05)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+  :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;FIELD&nbsp;MAP</div>
+    <nav class="nav-links">
+      <a href="#problem">00·problem</a>
+      <a href="#failures">01·failures</a>
+      <a href="#canon">02·canon</a>
+      <a href="#approaches">03·approaches</a>
+      <a href="#interp">04·interpretability</a>
+      <a href="#evals">05·evals</a>
+      <a href="#governance">06·governance</a>
+      <a href="#start">07·start</a>
+      <a href="#sources">refs</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <main style="padding-top:0">
+    <div class="kicker">A technical field map for engineers crossing into AI safety</div>
+    <h1>Capability is racing.<br>Can we keep it <span class="pos">aligned</span>?</h1>
+    <p class="sub">As models get more capable, the hard part isn't making them do more — it's making them reliably want what we want, and proving it. This is the map: the failure modes, the canon, the alignment techniques, interpretability, evals, and governance — with a page on each and the source pinned at the top.</p>
+    <div class="prompt-line mono">
+      <span class="pmt">align@frontier:~$</span>
+      <span>name the failure · read the canon · learn the techniques · measure the risk</span>
+      <span class="cursor"></span>
+    </div>
+    <div class="legend">
+      <span class="legend-tag t-off">▲ amber = capability / risk</span>
+      <span class="legend-tag t-def">▼ cyan = alignment / safety</span>
+    </div>
+  </main>
+</section>
+
+<main>
+
+<!-- 00 PROBLEM -->
+<section id="problem">
+  <div class="eyebrow reveal"><span class="idx">00</span> the problem</div>
+  <h2 class="reveal">Why alignment is hard — and why capability doesn't solve it</h2>
+  <p class="reveal lead">We train models by optimizing a proxy — a loss, a reward, a preference model — not the thing we actually want. A capable optimizer will exploit every gap between the proxy and our intent, and the gaps don't shrink as the model gets smarter; they get harder to see. The result is a control problem that's distinct from a capability problem: a more powerful system is not automatically a safer one.</p>
+  <div class="callout reveal">Three ideas to hold the whole map together: <strong>outer alignment</strong> (is the objective we specified actually what we want?), <strong>inner alignment</strong> (does the trained model actually pursue that objective, or a correlated proxy?), and <strong>scalable oversight</strong> (how do we supervise systems that know more than we do?). Almost every page here is an attack on, or a defense of, one of these three.</p>
+</section>
+
+<!-- 01 FAILURES -->
+<section id="failures">
+  <div class="eyebrow reveal"><span class="idx">01</span> the failure modes</div>
+  <h2 class="reveal">How aligned-looking models go wrong</h2>
+  <p class="reveal">These are the named ways the proxy-vs-intent gap bites. Learn them the way a security person knows vuln classes — they're how you reason about what could break. <span style="color:var(--ink-dim)">Each links to a one-page explainer.</span></p>
+  <div class="grid g2 reveal">
+    <div class="card off"><div class="num">F01</div><h3><a class="lnk" href="failures/specification-gaming.html">Specification Gaming</a></h3><p>The model satisfies the literal objective while violating its intent — the boat that spins in circles collecting points instead of finishing the race.</p></div>
+    <div class="card off"><div class="num">F02</div><h3><a class="lnk" href="failures/reward-hacking.html">Reward Hacking</a></h3><p>Exploiting flaws in the reward signal itself — tampering with the metric, the sensor, or the human rater rather than doing the task.</p></div>
+    <div class="card off"><div class="num">F03</div><h3><a class="lnk" href="failures/goal-misgeneralization.html">Goal Misgeneralization</a></h3><p>Capabilities generalize out-of-distribution but the <em>goal</em> doesn't — the model competently pursues the wrong objective it learned in training.</p></div>
+    <div class="card off"><div class="num">F04</div><h3><a class="lnk" href="failures/mesa-optimization.html">Mesa-Optimization</a></h3><p>Training produces an inner optimizer with its own objective. Inner alignment asks whether that learned goal matches the one we trained for.</p></div>
+    <div class="card off"><div class="num">F05</div><h3><a class="lnk" href="failures/deceptive-alignment.html">Deceptive Alignment</a></h3><p>A model that behaves well <em>because</em> it's being watched — performing alignment during training to preserve a different goal for deployment.</p></div>
+    <div class="card off"><div class="num">F06</div><h3><a class="lnk" href="failures/power-seeking.html">Power-Seeking</a></h3><p>Instrumental convergence: for a wide range of goals, gaining resources, self-preservation, and option-value are useful sub-goals. Hard to train out.</p></div>
+  </div>
+</section>
+
+<!-- 02 CANON -->
+<section id="canon">
+  <div class="eyebrow reveal"><span class="idx">02</span> the canon</div>
+  <h2 class="reveal">Read the papers everyone cites</h2>
+  <p class="reveal">A small, knowable canon underpins the whole field. Know these by name, what they showed, and what they changed. <span style="color:var(--ink-dim)">Each links to a one-page explainer with the paper at the top.</span></p>
+  <div class="reveal">
+    <div class="row"><div class="name"><a class="lnk" href="papers/concrete-problems.html">Concrete Problems in AI Safety</a><span class="yr">Amodei et al. · 2016</span></div><div class="desc">The founding taxonomy — five concrete failure modes (avoiding side effects, reward hacking, scalable oversight, safe exploration, distributional shift) that still frame the field.</div></div>
+    <div class="row"><div class="name"><a class="lnk" href="papers/deep-rlhf.html">Deep RL from Human Preferences</a><span class="yr">Christiano et al. · 2017</span></div><div class="desc">Learn a reward model from human comparisons instead of hand-coding it. The technical seed of RLHF and modern preference tuning.</div></div>
+    <div class="row"><div class="name"><a class="lnk" href="papers/debate.html">AI Safety via Debate</a><span class="yr">Irving et al. · 2018</span></div><div class="desc">A scalable-oversight proposal: two AIs argue, a human judges. Bet that judging an argument is easier than producing the answer.</div></div>
+    <div class="row"><div class="name"><a class="lnk" href="papers/constitutional-ai.html">Constitutional AI</a><span class="yr">Bai et al. · 2022</span></div><div class="desc">Align with a written set of principles and AI-generated feedback (RLAIF) instead of human labels for every harm — the basis of Claude's training.</div></div>
+    <div class="row"><div class="name"><a class="lnk" href="papers/weak-to-strong.html">Weak-to-Strong Generalization</a><span class="yr">Burns et al. · 2023</span></div><div class="desc">Can a weak supervisor elicit the full capability of a stronger model? A concrete empirical handle on the superalignment problem.</div></div>
+    <div class="row"><div class="name"><a class="lnk" href="papers/sleeper-agents.html">Sleeper Agents</a><span class="yr">Hubinger et al. · 2024</span></div><div class="desc">Backdoored deceptive behavior survived safety training — including adversarial training, which sometimes just taught the model to hide it better.</div></div>
+  </div>
+  <div class="callout def reveal">This is a starting six, not the whole shelf. <strong><a class="lnk" href="failures/mesa-optimization.html" style="color:inherit">Risks from Learned Optimization</a></strong> (the mesa-optimization paper) sits under <a class="lnk" href="#failures">failures</a>; the interpretability canon (superposition, monosemanticity, circuits) lives under <a class="lnk" href="#interp">interpretability</a>.</div>
+</section>
+
+<!-- 03 APPROACHES -->
+<section id="approaches">
+  <div class="eyebrow reveal"><span class="idx">03</span> alignment approaches</div>
+  <h2 class="reveal">The techniques we actually train with</h2>
+  <p class="reveal">How the labs try to close the gap today — and where each one runs out of road. <span style="color:var(--ink-dim)">Each links to a one-page explainer.</span></p>
+  <div class="grid g3 reveal">
+    <div class="card def"><h3><a class="lnk" href="approaches/rlhf.html">RLHF</a></h3><p>Reinforcement learning from human feedback — the workhorse behind InstructGPT and most chat models. Powerful, but bounded by what humans can rate.</p></div>
+    <div class="card def"><h3><a class="lnk" href="approaches/scalable-oversight.html">Scalable Oversight</a></h3><p>Supervising systems smarter than us: debate, recursive reward modeling, IDA, and weak-to-strong. The central bet of superalignment.</p></div>
+    <div class="card def"><h3><a class="lnk" href="approaches/red-teaming.html">Red Teaming</a></h3><p>Adversarial pressure to surface failures before deployment — the offensive complement to alignment. (See the sister field map for the attack craft.)</p></div>
+  </div>
+  <div class="callout def reveal"><strong><a class="lnk" href="papers/constitutional-ai.html" style="color:inherit">Constitutional AI</a></strong> and <strong><a class="lnk" href="papers/debate.html" style="color:inherit">Debate</a></strong> are approaches too — they're written up under <a class="lnk" href="#canon">the canon</a> because each is anchored by one defining paper.</div>
+</section>
+
+<!-- 04 INTERPRETABILITY -->
+<section id="interp">
+  <div class="eyebrow reveal"><span class="idx">04</span> interpretability</div>
+  <h2 class="reveal">Open the box — read the weights, not just the outputs</h2>
+  <p class="reveal">If we could read a model's internals, we could catch deception and misalignment that behavioral tests miss. Mechanistic interpretability is the bet that neural nets are understandable in terms of human-legible features and circuits. <span style="color:var(--ink-dim)">Each links to a one-page explainer.</span></p>
+  <div class="grid g2 reveal">
+    <div class="card def"><h3><a class="lnk" href="interp/mech-interp.html">Mechanistic Interpretability</a></h3><p>The program: reverse-engineer the algorithms a network learned, feature by feature and circuit by circuit. Why it matters for catching deception.</p></div>
+    <div class="card def"><h3><a class="lnk" href="interp/superposition.html">Superposition</a></h3><p>Why a model packs more features than it has neurons — and why that makes individual neurons polysemantic and hard to read. ("Toy Models of Superposition.")</p></div>
+    <div class="card def"><h3><a class="lnk" href="interp/sparse-autoencoders.html">Sparse Autoencoders</a></h3><p>Dictionary learning to pull monosemantic features back out of superposition — the current workhorse for finding interpretable directions.</p></div>
+    <div class="card def"><h3><a class="lnk" href="interp/circuits.html">Circuits &amp; Induction Heads</a></h3><p>Concrete reverse-engineered mechanisms — induction heads and in-context learning — and the transformer-circuits framework behind them.</p></div>
+  </div>
+</section>
+
+<!-- 05 EVALS -->
+<section id="evals">
+  <div class="eyebrow reveal"><span class="idx">05</span> evals &amp; dangerous capabilities</div>
+  <h2 class="reveal">Measure the risk before you ship it</h2>
+  <p class="reveal">You can't manage what you can't measure. Dangerous-capability evals and third-party testing turn "is this model safe?" into numbers a decision can ride on. <span style="color:var(--ink-dim)">Each links to a one-page explainer.</span></p>
+  <div class="grid g2 reveal">
+    <div class="card off"><h3><a class="lnk" href="evals/dangerous-capability-evals.html">Dangerous-Capability Evals</a></h3><p>Structured tests for cyber, bio/CBRN, persuasion, autonomy, and self-replication — measuring what a model <em>could</em> do if misused.</p></div>
+    <div class="card def"><h3><a class="lnk" href="evals/metr.html">METR</a></h3><p>The independent evaluator known for autonomy and task-horizon evals (the "how long a task can an agent do" curve). The reference third party.</p></div>
+    <div class="card def"><h3><a class="lnk" href="evals/aisi.html">AI Safety Institutes</a></h3><p>Government testing bodies (UK AISI, US CAISI, and a growing network) doing pre-deployment evals and building shared methodology.</p></div>
+    <div class="card def"><h3><a class="lnk" href="evals/responsible-scaling.html">Responsible Scaling / RSPs</a></h3><p>Frontier-safety frameworks that tie capability thresholds to required safeguards — Anthropic's RSP, OpenAI's Preparedness, DeepMind's FSF.</p></div>
+  </div>
+</section>
+
+<!-- 06 GOVERNANCE -->
+<section id="governance">
+  <div class="eyebrow reveal"><span class="idx">06</span> governance &amp; the orgs</div>
+  <h2 class="reveal">Who's steering, and with what rules</h2>
+  <p class="reveal">Technical work doesn't ship safety on its own — policy, institutions, and incentives decide whether it's used. The shape of the field in one paragraph:</p>
+  <div class="grid g3 reveal">
+    <div class="card def"><div class="num">LABS</div><h3>Frontier labs</h3><p><a class="lnk" href="https://www.anthropic.com/" target="_blank" rel="noopener">Anthropic</a>, <a class="lnk" href="https://openai.com/safety" target="_blank" rel="noopener">OpenAI</a>, <a class="lnk" href="https://deepmind.google/about/responsibility-safety/" target="_blank" rel="noopener">Google DeepMind</a> — each with a published <a class="lnk" href="evals/responsible-scaling.html">scaling/preparedness framework</a>.</p></div>
+    <div class="card def"><div class="num">PUBLIC</div><h3>Institutes &amp; nonprofits</h3><p>The <a class="lnk" href="evals/aisi.html">AI Safety Institutes</a>, <a class="lnk" href="https://metr.org/" target="_blank" rel="noopener">METR</a>, <a class="lnk" href="https://www.apolloresearch.ai/" target="_blank" rel="noopener">Apollo Research</a>, <a class="lnk" href="https://www.alignmentforum.org/" target="_blank" rel="noopener">Alignment Forum</a> community.</p></div>
+    <div class="card off"><div class="num">LAW</div><h3>Regulation</h3><p>The <a class="lnk" href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU AI Act</a> (full compliance Aug 2026) mandates adversarial testing for high-risk and frontier systems — the main regulatory driver today.</p></div>
+  </div>
+</section>
+
+<!-- 07 START -->
+<section id="start">
+  <div class="eyebrow reveal"><span class="idx">07</span> getting started</div>
+  <h2 class="reveal">A sequenced ramp-up</h2>
+  <p class="reveal">A dependency chain, not a reading list: build the mental model, learn the failure modes, then the techniques, then go hands-on. Check items off — your progress is saved on this device.</p>
+  <div class="road reveal">
+    <div class="road-head">
+      <span class="ttl mono">RAMP_STATUS</span>
+      <div class="meter"><div class="bar"><div class="fill" id="fill"></div></div><span class="pct mono" id="pct">0%</span></div>
+    </div>
+    <div class="phase">
+      <div class="ph">Phase 1 — Mental model <span class="wk">weeks 1–2</span></div>
+      <div class="task" data-id="s1a"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Read "Concrete Problems in AI Safety" and internalize outer vs inner alignment<em>The whole map hangs off these three ideas.</em></span></div>
+      <div class="task" data-id="s1b"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Learn the failure modes cold: spec gaming, reward hacking, goal misgeneralization, deceptive alignment<em>How you reason about what could break.</em></span></div>
+    </div>
+    <div class="phase">
+      <div class="ph">Phase 2 — The techniques <span class="wk">weeks 3–5</span></div>
+      <div class="task" data-id="s2a"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Work through RLHF → Constitutional AI → scalable oversight (debate, weak-to-strong)<em>How alignment is actually trained, and where it breaks.</em></span></div>
+      <div class="task" data-id="s2b"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Read the Sleeper Agents paper and sit with why adversarial training didn't fix it<em>The sharpest current evidence that behavioral safety isn't enough.</em></span></div>
+    </div>
+    <div class="phase">
+      <div class="ph">Phase 3 — Go deep on one lane <span class="wk">weeks 6–9</span></div>
+      <div class="task" data-id="s3a"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Pick interpretability OR evals and build something — train a small SAE, or run a dangerous-capability eval<em>Depth in one lane beats a survey of all of them.</em></span></div>
+      <div class="task" data-id="s3b"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Follow the Alignment Forum + one lab's safety blog; reproduce one result<em>The field moves monthly — plug into the live conversation.</em></span></div>
+    </div>
+    <div class="phase">
+      <div class="ph">Phase 4 — Contribute <span class="wk">weeks 10+</span></div>
+      <div class="task" data-id="s4a"><span class="box"><svg viewBox="0 0 12 12"><path d="M1 6l3 3 7-7" stroke="#06181b" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Write up what you found, or apply to a lab/nonprofit/MATS-style program<em>Public artifacts and reproductions are how you get taken seriously.</em></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources">
+  <div class="eyebrow reveal">references · current as of June 2026</div>
+  <h2 class="reveal">Where this came from</h2>
+  <div class="src reveal">
+    <a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener"><span class="k">01</span>Concrete Problems in AI Safety (Amodei et al. 2016)</a>
+    <a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener"><span class="k">02</span>Deep RL from Human Preferences (Christiano et al. 2017)</a>
+    <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener"><span class="k">03</span>Constitutional AI (Bai et al. 2022)</a>
+    <a href="https://arxiv.org/abs/2401.05566" target="_blank" rel="noopener"><span class="k">04</span>Sleeper Agents (Hubinger et al. 2024)</a>
+    <a href="https://transformer-circuits.pub/2022/toy_model/index.html" target="_blank" rel="noopener"><span class="k">05</span>Toy Models of Superposition (Anthropic 2022)</a>
+    <a href="https://metr.org/" target="_blank" rel="noopener"><span class="k">06</span>METR — model evaluation &amp; threat research</a>
+    <a href="https://www.alignmentforum.org/" target="_blank" rel="noopener"><span class="k">07</span>The Alignment Forum</a>
+    <a href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener"><span class="k">08</span>EU AI Act</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Built as a field map, not gospel — alignment is an unsolved, fast-moving field. Verify against the source papers, and treat every "solution" here as partial. Sister map: the Red Teaming ramp-up.
+</footer>
+
+<script>
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  }, {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  var KEY='aisafety-roadmap-v1';
+  var tasks = Array.prototype.slice.call(document.querySelectorAll('.task'));
+  var fill = document.getElementById('fill');
+  var pct  = document.getElementById('pct');
+  var state = {};
+  var hasStore = false;
+  function render(){
+    var done=0;
+    tasks.forEach(function(t){ var id=t.getAttribute('data-id'); if(state[id]){ t.classList.add('done'); done++; } else t.classList.remove('done'); });
+    var p = tasks.length ? Math.round(done/tasks.length*100) : 0;
+    fill.style.width = p+'%'; pct.textContent = p+'%';
+  }
+  async function load(){
+    try{ if(window.storage && window.storage.get){ var r = await window.storage.get(KEY); if(r && r.value){ state = JSON.parse(r.value); } hasStore = true; } }
+    catch(e){ hasStore = !!(window.storage && window.storage.set); }
+    render();
+  }
+  async function save(){ if(!hasStore) return; try{ await window.storage.set(KEY, JSON.stringify(state)); }catch(e){} }
+  tasks.forEach(function(t){
+    t.setAttribute('role','button'); t.setAttribute('tabindex','0');
+    function toggle(){ var id=t.getAttribute('data-id'); state[id] = !state[id]; render(); save(); }
+    t.addEventListener('click', toggle);
+    t.addEventListener('keydown', function(ev){ if(ev.key===' '||ev.key==='Enter'){ ev.preventDefault(); toggle(); } });
+  });
+  load();
+})();
+</script>
+</body>
+</html>

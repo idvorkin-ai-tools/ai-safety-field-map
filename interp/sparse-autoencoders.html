@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sparse Autoencoders — AI Safety Interpretability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;INTERPRETABILITY</div>
+  <a class="back" href="../index.html#interp">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>interpretability</span><span class="box bb mono">dictionary learning</span></div>
+  <h1>Sparse Autoencoders</h1>
+  <div class="authors">Anthropic · Towards / Scaling Monosemanticity · 2023–24</div>
+  <div class="paperlink"><span class="lbl">Source</span><a href="https://transformer-circuits.pub/2023/monosemantic-features/index.html" target="_blank" rel="noopener">Towards Monosemanticity (Anthropic) ↗</a></div>
+  <p class="lead">A sparse autoencoder (SAE) is a dictionary-learning method that decomposes a model's dense activations into a much larger set of sparse, mostly <strong>monosemantic</strong> features — pulling concepts back out of superposition.</p>
+  <h2>The idea</h2>
+  <p>Neurons are <strong>polysemantic</strong>: a single activation dimension fires for many unrelated concepts because the model packs more features than it has dimensions (superposition). An SAE attacks this directly:</p>
+  <ul>
+    <li>Train an autoencoder on a layer's activations (e.g. the residual stream) with an <strong>overcomplete</strong> hidden layer — far more units than input dimensions.</li>
+    <li>Enforce <strong>sparsity</strong> (an L1 penalty), so only a handful of hidden units fire per input. Each one learns to specialize.</li>
+    <li>Reconstruct the original activation from that sparse code. The learned <strong>dictionary</strong> directions are the features.</li>
+    <li>The 2023 paper trained on ~8B activations from a one-layer transformer, learning thousands of features; human raters judged a large majority as cleanly interpretable single concepts (Arabic script, DNA, specific tokens).</li>
+  </ul>
+  <h2>What it found</h2>
+  <p>Learned features map to <strong>human-legible concepts</strong>, and you can verify them: a feature activates on the concept's instances <em>and</em> on abstract discussion of it. Crucially, features are <strong>causal handles</strong> — clamping one up or down ("feature steering") changes generation in the predicted direction.</p>
+  <p><strong>Scaling Monosemanticity (2024)</strong> showed this works on a production model — <strong>Claude 3 Sonnet</strong> — training SAEs with up to ~34M features on a middle-layer residual stream. It surfaced multilingual, multimodal features and, notably, <strong>safety-relevant</strong> ones: deception, power-seeking, sycophancy, bias, and unsafe code. The infamous "Golden Gate Bridge" feature came from this work.</p>
+  <h2>Why it matters &amp; limits</h2>
+  <p>SAEs are the current <strong>workhorse</strong> for turning opaque activations into a vocabulary of named, steerable directions — the first scalable bridge from "a vector fired" to "the model is thinking about X." But be precise about the limits:</p>
+  <ul>
+    <li><strong>Coverage is partial.</strong> A dictionary captures the features it was given capacity and data to find; rare or fine-grained concepts get missed or split across multiple units.</li>
+    <li><strong>Features can be incomplete or imperfect</strong> — reconstruction error means some signal is dropped, and "monosemantic" is a strong tendency, not a guarantee.</li>
+    <li><strong>Not yet a full audit.</strong> Finding a deception feature is not the same as proving you've found <em>all</em> deception-related computation, or that steering it is robust. SAEs locate directions; they don't certify behavior.</li>
+  </ul>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

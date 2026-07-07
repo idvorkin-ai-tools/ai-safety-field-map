@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Responsible Scaling / RSPs — AI Safety Evals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;EVALS</div>
+  <a class="back" href="../index.html#evals">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>evals &amp; dangerous capabilities</span><span class="box bb mono">frontier safety policy</span></div>
+  <h1>Responsible Scaling</h1>
+  <div class="authors">RSP · Preparedness · Frontier Safety Framework</div>
+  <div class="paperlink"><span class="lbl">Policy</span><a href="https://www.anthropic.com/news/anthropics-responsible-scaling-policy" target="_blank" rel="noopener">Anthropic Responsible Scaling Policy ↗</a></div>
+  <p class="lead">Responsible scaling policies are voluntary commitments where a lab ties model capability thresholds to required safeguards, and pauses further scaling until those safeguards are in place.</p>
+  <h2>The core idea</h2>
+  <p>The mechanism is an <strong>"if-then" commitment</strong>. The lab runs evaluations on a model for specific dangerous capabilities — uplift to bioweapons or cyberattacks, autonomous self-replication, undermining oversight. Each policy defines <strong>capability thresholds</strong> and the safeguards that must be live before a model crossing one is trained or deployed: hardened security against weight theft, deployment filters, access controls, alignment evidence. If a model reaches a threshold and the matching safeguards <em>aren't</em> ready, the commitment is to hold — pause or restrict — until they are. Safety requirements escalate as capabilities climb, so the policy is a ladder rather than a single gate. In practice the binding question is rarely the threshold itself but whether the evals are sharp enough to detect when a model has crossed it.</p>
+  <h2>The three frameworks</h2>
+  <p>All three labs converged on the same shape; the names and tiers differ.</p>
+  <ul>
+    <li><strong>Anthropic — Responsible Scaling Policy (RSP).</strong> Uses <strong>AI Safety Levels (ASL-1…ASL-4+)</strong>, modeled on biosafety levels. Each level pairs a capability bar with required security and deployment standards; current frontier models sit around ASL-2/ASL-3. <a href="https://www.anthropic.com/news/anthropics-responsible-scaling-policy" target="_blank" rel="noopener">anthropic.com ↗</a></li>
+    <li><strong>OpenAI — Preparedness Framework.</strong> Defines <strong>Tracked Categories</strong> (Biological/Chemical, Cybersecurity, AI Self-improvement) with High and Critical capability levels, plus research categories for emerging risks; safeguards must "sufficiently minimize" risk before deployment. <a href="https://openai.com/index/updating-our-preparedness-framework/" target="_blank" rel="noopener">openai.com ↗</a></li>
+    <li><strong>Google DeepMind — Frontier Safety Framework (FSF).</strong> Defines <strong>Critical Capability Levels (CCLs)</strong> across domains like cyber, CBRN, autonomy, ML R&D, and harmful manipulation; reaching a CCL triggers a safety-case review before launch. <a href="https://deepmind.google/blog/strengthening-our-frontier-safety-framework/" target="_blank" rel="noopener">deepmind.google ↗</a></li>
+  </ul>
+  <h2>Strengths &amp; limits</h2>
+  <p>The strength is that these turn open-ended "we take safety seriously" into <strong>concrete, conditional, pre-committed actions</strong>: a named eval, a named threshold, a named safeguard, made public in advance and harder to walk back quietly. They create some shared vocabulary across labs and a "race to the top" pressure where competitors can be measured against each other.</p>
+  <p>The limits are equally real and worth stating plainly. These are <strong>voluntary and self-enforced</strong> — each lab writes its own thresholds, runs its own evals, judges its own compliance, and can revise the policy (some revisions have loosened commitments). A framework is <strong>only as good as the evals behind it</strong>: if a dangerous capability is present but the eval doesn't surface it, the threshold never trips. "Pause" depends on a lab choosing to halt under competitive pressure, with no external audit or enforcement. Treat them as genuine, useful self-governance — not as a regulatory backstop.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

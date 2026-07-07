@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Circuits &amp; Induction Heads — AI Safety Interpretability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;INTERPRETABILITY</div>
+  <a class="back" href="../index.html#interp">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>interpretability</span><span class="box bb mono">Anthropic · 2021–22</span></div>
+  <h1>Circuits &amp; Induction Heads</h1>
+  <div class="authors">Elhage, Olsson et al. (Anthropic) · 2021–22</div>
+  <div class="paperlink"><span class="lbl">Source</span><a href="https://transformer-circuits.pub/2021/framework/index.html" target="_blank" rel="noopener">A Mathematical Framework for Transformer Circuits (Anthropic) ↗</a></div>
+  <p class="lead">A reverse-engineering toolkit that treats a transformer not as a black box but as a sum of small, human-legible algorithms you can read off the weights — and a concrete one it found, the <strong>induction head</strong>.</p>
+  <h2>The framework</h2>
+  <p>The core move is to view the model as a <strong>residual stream</strong>: a shared communication bus that every layer reads from and writes to. Attention heads and MLPs don't transform the stream in place — they add their outputs into it, so the whole network decomposes into independent end-to-end paths from tokens to logits. Each attention head factors into two near-independent pieces:</p>
+  <ul>
+    <li><strong>QK circuit</strong> — decides <em>which</em> earlier position a token attends to (the attention pattern).</li>
+    <li><strong>OV circuit</strong> — decides <em>what</em> gets copied from that position into the stream once attended to.</li>
+    <li><strong>Composition</strong> — heads in later layers read what earlier heads wrote, composing via queries, keys, or values. This is how multi-step algorithms get built out of single-head operations.</li>
+  </ul>
+  <h2>Induction heads</h2>
+  <p>The framework's flagship discovery, and the simplest non-trivial circuit it isolates. An induction head implements a two-head algorithm: <strong>find the previous place the current token appeared, then copy whatever came right after it.</strong> Formally, given a sequence matching <code>[A][B]…[A]</code>, it raises the probability of <code>[B]</code> next. It first appears only in 2-layer models — one head writes "the token before me was X," a second head uses that to attend back and copy forward. The follow-up work, <a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" target="_blank" rel="noopener">In-context Learning and Induction Heads (Olsson et al., 2022) ↗</a>, argues these heads are a primary <strong>mechanism behind in-context learning</strong>: they form in a sharp training phase change that coincides with the model suddenly getting good at few-shot tasks, and ablating them degrades that ability.</p>
+  <h2>Why it matters</h2>
+  <p>This is the <strong>existence proof</strong> for mechanistic interpretability: it showed that real, human-understandable algorithms can be recovered from raw learned weights — not just correlated with behavior, but identified and ablation-tested. It grounds the claim that models can in principle be audited at the level of "what computation is this doing," which is what safety needs from interpretability. The caveat is scale: these circuits were mapped in tiny (1–2 layer, toy) models. Reading a frontier model the same way — with superposition, polysemantic neurons, and millions of interacting features — remains the open hard problem.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>

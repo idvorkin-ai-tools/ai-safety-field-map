@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RLHF — AI Safety Approaches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="paper.css" />
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+  <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;APPROACHES</div>
+  <a class="back" href="../index.html#approaches">← back to the map</a>
+</div></header>
+<main>
+  <div class="eyebrow"><span>alignment approaches</span><span class="box bb mono">the workhorse</span></div>
+  <h1>RLHF</h1>
+  <div class="authors">Reinforcement Learning from Human Feedback</div>
+  <div class="paperlink"><span class="lbl">Key paper</span><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">InstructGPT (Ouyang et al.) ↗</a></div>
+  <p class="lead">RLHF aligns a language model to human intent by learning a reward signal from human preference judgments, then optimizing the model against that learned reward — turning the unwriteable spec "be helpful and harmless" into something a policy can be trained on.</p>
+  <h2>The pipeline</h2>
+  <p>Three stages, run in sequence on a pretrained base model:</p>
+  <ul>
+    <li><strong>1. Supervised fine-tuning (SFT).</strong> Fine-tune the base model on a dataset of high-quality demonstrations — human-written responses to prompts — to get a reasonable starting policy.</li>
+    <li><strong>2. Reward model (RM).</strong> Collect human <strong>preference comparisons</strong> (labelers rank several model outputs for the same prompt) and train a separate model to predict which output a human would prefer. The RM compresses messy human judgment into a single scalar reward.</li>
+    <li><strong>3. RL optimization.</strong> Use reinforcement learning — typically <strong>PPO</strong> — to optimize the SFT policy to maximize the RM's predicted reward, with a KL penalty against the SFT model to keep outputs from drifting into reward-model blind spots.</li>
+  </ul>
+  <h2>Why it works</h2>
+  <p>"Be helpful" is far easier to <strong>recognize</strong> than to <strong>write down</strong>. RLHF exploits that asymmetry: humans need only compare outputs, and the reward model generalizes those comparisons to unseen prompts. The payoff is large. InstructGPT showed that a <strong>1.3B</strong>-parameter aligned model produced outputs human labelers preferred over the <strong>175B</strong> GPT-3 base model — roughly 100× smaller — while also improving truthfulness and cutting toxic generations, with little regression on standard NLP benchmarks.</p>
+  <h2>Where it runs out of road</h2>
+  <p>RLHF is bounded by <strong>what humans can evaluate</strong>. Its known failure modes:</p>
+  <ul>
+    <li><strong>Reward-model overoptimization (Goodharting).</strong> Push PPO hard enough and the policy exploits gaps in the RM, scoring high reward while degrading on true quality — the KL penalty mitigates but doesn't eliminate this.</li>
+    <li><strong>Sycophancy.</strong> Optimizing for human approval rewards answers that <em>sound</em> agreeable or confident over answers that are correct.</li>
+    <li><strong>Evaluation ceiling.</strong> On tasks too hard for labelers to judge, the preference signal becomes unreliable — and it does nothing to surface <strong>deceptive alignment</strong>, where a model behaves well only while supervised.</li>
+  </ul>
+  <p>These limits motivate <strong>scalable oversight</strong> and approaches that reduce the human-labeling bottleneck, such as <strong>Constitutional AI / RLAIF</strong>. The technique's roots trace to <a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep RL from Human Preferences (Christiano et al., 2017) ↗</a>.</p>
+</main>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+</body>
+</html>
