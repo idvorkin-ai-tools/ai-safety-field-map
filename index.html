@@ -190,7 +190,8 @@
   <div class="eyebrow reveal"><span class="idx">00</span> the problem</div>
   <h2 class="reveal">Why alignment is hard — and why capability doesn't solve it</h2>
   <p class="reveal lead">We train models by optimizing a proxy — a loss, a reward, a preference model — not the thing we actually want. A capable optimizer will exploit every gap between the proxy and our intent, and the gaps don't shrink as the model gets smarter; they get harder to see. The result is a control problem that's distinct from a capability problem: a more powerful system is not automatically a safer one.</p>
-  <div class="callout reveal">Three ideas to hold the whole map together: <strong>outer alignment</strong> (is the objective we specified actually what we want?), <strong>inner alignment</strong> (does the trained model actually pursue that objective, or a correlated proxy?), and <strong>scalable oversight</strong> (how do we supervise systems that know more than we do?). Almost every page here is an attack on, or a defense of, one of these three.</p>
+  <div class="callout reveal">Three ideas to hold the whole map together: <strong>outer alignment</strong> (is the objective we specified actually what we want?), <strong>inner alignment</strong> (does the trained model actually pursue that objective, or a correlated proxy?), and <strong>scalable oversight</strong> (how do we supervise systems that know more than we do?). Almost every page here is an attack on, or a defense of, one of these three.</div>
+  <p class="reveal">For measured cases of capability and alignment coming apart, see the hub's <a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-capability-alignment.html">capability vs alignment bridge</a>. This map is one of a family; the <a class="lnk" href="https://idvorkin-ai-tools.github.io/safety.html">AI safety hub</a> shows them all with a reading order.</p>
 </section>
 
 <!-- 01 FAILURES -->
@@ -262,7 +263,7 @@
   <div class="grid g2 reveal">
     <div class="card off"><h3><a class="lnk" href="evals/dangerous-capability-evals.html">Dangerous-Capability Evals</a></h3><p>Structured tests for cyber, bio/CBRN, persuasion, autonomy, and self-replication — measuring what a model <em>could</em> do if misused.</p></div>
     <div class="card def"><h3><a class="lnk" href="evals/metr.html">METR</a></h3><p>The independent evaluator known for autonomy and task-horizon evals (the "how long a task can an agent do" curve). The reference third party.</p></div>
-    <div class="card def"><h3><a class="lnk" href="evals/aisi.html">AI Safety Institutes</a></h3><p>Government testing bodies (UK AISI, US CAISI, and a growing network) doing pre-deployment evals and building shared methodology.</p></div>
+    <div class="card def"><h3><a class="lnk" href="evals/aisi.html">AI Safety Institutes</a></h3><p>Government testing bodies (UK AISI, US CAISSI, formerly CAISI, and a growing network) doing pre-deployment evals and building shared methodology.</p></div>
     <div class="card def"><h3><a class="lnk" href="evals/responsible-scaling.html">Responsible Scaling / RSPs</a></h3><p>Frontier-safety frameworks that tie capability thresholds to required safeguards — Anthropic's RSP, OpenAI's Preparedness, DeepMind's FSF.</p></div>
   </div>
 </section>
@@ -275,7 +276,7 @@
   <div class="grid g3 reveal">
     <div class="card def"><div class="num">LABS</div><h3>Frontier labs</h3><p><a class="lnk" href="https://www.anthropic.com/" target="_blank" rel="noopener">Anthropic</a>, <a class="lnk" href="https://openai.com/safety" target="_blank" rel="noopener">OpenAI</a>, <a class="lnk" href="https://deepmind.google/about/responsibility-safety/" target="_blank" rel="noopener">Google DeepMind</a> — each with a published <a class="lnk" href="evals/responsible-scaling.html">scaling/preparedness framework</a>.</p></div>
     <div class="card def"><div class="num">PUBLIC</div><h3>Institutes &amp; nonprofits</h3><p>The <a class="lnk" href="evals/aisi.html">AI Safety Institutes</a>, <a class="lnk" href="https://metr.org/" target="_blank" rel="noopener">METR</a>, <a class="lnk" href="https://www.apolloresearch.ai/" target="_blank" rel="noopener">Apollo Research</a>, <a class="lnk" href="https://www.alignmentforum.org/" target="_blank" rel="noopener">Alignment Forum</a> community.</p></div>
-    <div class="card off"><div class="num">LAW</div><h3>Regulation</h3><p>The <a class="lnk" href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU AI Act</a> (full compliance Aug 2026) mandates adversarial testing for high-risk and frontier systems — the main regulatory driver today.</p></div>
+    <div class="card off"><div class="num">LAW</div><h3>Regulation</h3><p>The <a class="lnk" href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU AI Act</a> mandates adversarial testing for high-risk and frontier systems. When this was written (June 2026) most obligations were due to apply from August 2026 and it was the main regulatory driver; check the current timeline.</p></div>
   </div>
 </section>
 
@@ -313,7 +314,7 @@
 
 <!-- SOURCES -->
 <section id="sources">
-  <div class="eyebrow reveal">references · current as of June 2026</div>
+  <div class="eyebrow reveal">references · written June 2026</div>
   <h2 class="reveal">Where this came from</h2>
   <div class="src reveal">
     <a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener"><span class="k">01</span>Concrete Problems in AI Safety (Amodei et al. 2016)</a>
@@ -330,7 +331,7 @@
 </main>
 
 <footer>
-  Built as a field map, not gospel — alignment is an unsolved, fast-moving field. Verify against the source papers, and treat every "solution" here as partial. Sister map: the Red Teaming ramp-up.
+  Built as a field map, not gospel — alignment is an unsolved, fast-moving field. Verify against the source papers, and treat every "solution" here as partial. Part of the <a href="https://idvorkin-ai-tools.github.io/safety.html" style="color:inherit">AI safety maps</a>; sister map: the <a href="https://idvorkin-ai-tools.github.io/red-teaming-ramp-up/" style="color:inherit">Red Teaming ramp-up</a>.
 </footer>
 
 <script>

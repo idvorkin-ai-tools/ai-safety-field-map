@@ -20,19 +20,25 @@
   <div class="authors">Model Evaluation &amp; Threat Research</div>
   <div class="paperlink"><span class="lbl">Org</span><a href="https://metr.org/" target="_blank" rel="noopener">METR ↗</a></div>
   <p class="lead">An independent nonprofit that scientifically measures whether and when frontier AI systems acquire the autonomous, agentic capabilities that could pose catastrophic risk.</p>
-  <h2>What they do</h2>
+  <h2 id="what-they-do">What they do</h2>
   <p>METR runs <strong>independent, third-party evaluations</strong> of frontier models, focused on autonomous task completion and the capacity to accelerate AI R&amp;D — the capability dimensions most relevant to catastrophic risk. They build agentic task suites with calibrated human baselines and run them as structured experiments rather than one-off demos. They partner with labs for <strong>pre-deployment access</strong> (OpenAI, Anthropic, xAI have provided model access and compute), but <strong>take no compensation</strong> for the work and also evaluate models independently after release. That independence is the point: the goal is an outside read on capability, not a vendor benchmark.</p>
-  <h2>The time-horizon metric</h2>
+  <h2 id="the-time-horizon-metric">The time-horizon metric</h2>
   <p>Their signature result is the <strong>50%-task-completion time horizon</strong>: the length of a task — measured by how long it takes a human professional — that a model can complete autonomously with <strong>~50% reliability</strong>. It collapses a model's agentic capability into one human-time number, which makes models comparable across a single trend line rather than a grab-bag of pass-rates.</p>
   <ul>
     <li>METR's finding: this 50%-reliability horizon has <strong>roughly doubled about every 7 months over the past ~6 years</strong> (they note the trend may have accelerated since 2024).</li>
+    <li>For scale: METR measured GPT-5 at a ~2h17m 50% horizon on agentic software tasks, against a 40-hour concern threshold (<a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit3/ch4.html">Technical AI Safety 3.4</a>).</li>
     <li>The measure is reliability-dependent — the 80% horizon (tasks done 4-out-of-5 times) is meaningfully shorter than the 50% one.</li>
     <li>It's an empirical trend on their task distribution, not a law; whether it generalizes to messy real-world work is an open extrapolation, which is why the precise definition matters.</li>
   </ul>
-  <h2>Why it matters</h2>
+  <h2 id="why-it-matters">Why it matters</h2>
   <p>Independent evaluation is load-bearing for the governance scaffolding around frontier AI. Responsible Scaling Policies and government oversight both lean on capability thresholds — and a lab grading its own homework is a weak check. An outside evaluator with reproducible methods and a quantitative trend line gives that scaffolding something concrete to anchor to, and gives the rest of us an external check on lab self-assessment.</p>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit3/ch4.html">Technical AI Safety 3.4, Option 2: OpenAI</a>: METR's GPT-5 time horizon against its 40-hour concern threshold.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-preparedness-reports.html#deltas">Lab reports compared</a>: where METR and other outside evaluators appear in lab reports.</li>
+  </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
 </body>
