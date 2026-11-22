@@ -34,7 +34,7 @@
   <h2 id="where-it-runs-out-of-road">Where it runs out of road</h2>
   <p>RLHF is bounded by <strong>what humans can evaluate</strong>. Its known failure modes:</p>
   <ul>
-    <li><strong>Reward-model overoptimization (<span class="term" data-term="goodharts-law">Goodharting</span>).</strong> Push PPO hard enough and the policy exploits gaps in the RM, scoring high reward while degrading on true quality — the KL penalty mitigates but doesn't eliminate this.</li>
+    <li><strong>Reward-model overoptimization (<span class="term" data-term="goodharts-law">Goodharting</span>).</strong> Push PPO hard enough and the policy exploits gaps in the RM, scoring high reward while degrading on true quality — the KL penalty mitigates but doesn't eliminate this. To push on a learned score yourself, try the <a class="lnk" href="https://idvorkin-ai-tools.github.io/llm-judges-field-map/parts/p07.html#goodhart">Goodhart widget on LLM Judges</a>.</li>
     <li><strong><span class="term" data-term="sycophancy">Sycophancy</span>.</strong> Optimizing for human approval rewards answers that <em>sound</em> agreeable or confident over answers that are correct.</li>
     <li><strong>Evaluation ceiling.</strong> On tasks too hard for labelers to judge, the preference signal becomes unreliable — and it does nothing to surface <strong><span class="term" data-term="deceptive-alignment">deceptive alignment</span></strong>, where a model behaves well only while supervised.</li>
   </ul>

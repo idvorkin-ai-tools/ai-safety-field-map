@@ -33,7 +33,7 @@
   <ul>
     <li><strong>Collect clips</strong> — the current policy acts; pairs of trajectory segments are sampled and shown to a human.</li>
     <li><strong>Human compares</strong> — the rater picks the better clip (or marks them equal/incomparable). No scores, no demonstrations — just preferences.</li>
-    <li><strong>Fit the reward model</strong> — a network <em>r̂</em> is trained so that the clip the human preferred gets higher predicted return, via a <span class="term" data-term="bradley-terry">Bradley–Terry</span> / softmax loss over the pair.</li>
+    <li><strong>Fit the reward model</strong> — a network <em>r̂</em> is trained so that the clip the human preferred gets higher predicted return, via a <span class="term" data-term="bradley-terry">Bradley–Terry</span> / softmax loss over the pair (try it in the <a class="lnk" href="https://idvorkin-ai-tools.github.io/llm-judges-field-map/parts/p03.html#ranking">Bradley–Terry widget on LLM Judges</a>).</li>
     <li><strong>Optimize the policy</strong> — standard deep RL (A2C / TRPO) maximizes the <em>predicted</em> reward, generating fresh, on-distribution clips for the next round.</li>
   </ul>
   <p>Comparisons are far more sample-efficient than they look: a few hundred to a few thousand binary judgments shape behavior that would otherwise need a carefully engineered, often-gameable reward function. Asking "which is better?" is also cheaper and more robust for humans than assigning absolute numeric rewards.</p>
@@ -52,7 +52,7 @@
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/llm-judges-field-map/parts/p03.html#ranking">LLM Judges: from many verdicts to one ranking</a>: an interactive Bradley–Terry model, the loss used here.</li>
   </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source paper.</footer>
 <script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>

@@ -282,7 +282,7 @@
   <div class="grid g3 reveal">
     <div class="card def"><div class="num">LABS</div><h3>Frontier labs</h3><p><a class="lnk" href="https://www.anthropic.com/" target="_blank" rel="noopener">Anthropic</a>, <a class="lnk" href="https://openai.com/safety" target="_blank" rel="noopener">OpenAI</a>, <a class="lnk" href="https://deepmind.google/about/responsibility-safety/" target="_blank" rel="noopener">Google DeepMind</a> — each with a published <a class="lnk" href="evals/responsible-scaling.html">scaling/preparedness framework</a>.</p></div>
     <div class="card def"><div class="num">PUBLIC</div><h3>Institutes &amp; nonprofits</h3><p>The <a class="lnk" href="evals/aisi.html">AI Safety Institutes</a>, <a class="lnk" href="https://metr.org/" target="_blank" rel="noopener">METR</a>, <a class="lnk" href="https://www.apolloresearch.ai/" target="_blank" rel="noopener">Apollo Research</a>, <a class="lnk" href="https://www.alignmentforum.org/" target="_blank" rel="noopener">Alignment Forum</a> community.</p></div>
-    <div class="card off"><div class="num">LAW</div><h3>Regulation</h3><p>The <a class="lnk" href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU AI Act</a> mandates adversarial testing for high-risk and frontier systems. When this was written (June 2026) most obligations were due to apply from August 2026 and it was the main regulatory driver; check the current timeline.</p></div>
+    <div class="card off"><div class="num">LAW</div><h3>Regulation</h3><p>The <a class="lnk" href="https://artificialintelligenceact.eu/" target="_blank" rel="noopener">EU AI Act</a> mandates adversarial testing for high-risk and frontier systems. As of June 2026, when this was written, full compliance was due in August 2026 and it was the main regulatory driver; check the current timeline.</p></div>
   </div>
 </section>
 
@@ -376,8 +376,8 @@
   tasks.forEach(function(t){
     t.setAttribute('role','button'); t.setAttribute('tabindex','0');
     function toggle(){ var id=t.getAttribute('data-id'); state[id] = !state[id]; render(); save(); }
-    t.addEventListener('click', toggle);
-    t.addEventListener('keydown', function(ev){ if(ev.key===' '||ev.key==='Enter'){ ev.preventDefault(); toggle(); } });
+    t.addEventListener('click', function(ev){ if(ev.target.closest && ev.target.closest('.gl-chip,.gl-box')) return; toggle(); });
+    t.addEventListener('keydown', function(ev){ if(ev.target.closest && ev.target.closest('.gl-chip,.gl-box')) return; if(ev.key===' '||ev.key==='Enter'){ ev.preventDefault(); toggle(); } });
   });
   load();
 })();
