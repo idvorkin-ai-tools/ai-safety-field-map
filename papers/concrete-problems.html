@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -20,22 +22,30 @@
   <div class="authors">Amodei, Olah, Steinhardt, Christiano, Schulman, Mané · 2016</div>
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">Concrete Problems in AI Safety (arXiv) ↗</a></div>
   <p class="lead">A research agenda that recasts "AI safety" as five tractable engineering problems about <strong>accidents</strong> — unintended, harmful behavior emerging from poorly specified objectives or poorly understood learning — in real machine-learning systems.</p>
-  <h2>The five problems</h2>
+  <h2 id="the-five-problems">The five problems</h2>
   <p>The paper groups failures by where the misbehavior comes from — the wrong objective, an objective too costly to evaluate, or the learning process itself:</p>
   <ul>
     <li><strong>Avoiding negative side effects</strong> — don't disrupt the environment in pursuit of a narrow goal (the cleaning robot that knocks over a vase). Wrong objective: under-specified.</li>
-    <li><strong>Avoiding reward hacking</strong> — don't game a proxy reward instead of achieving the intended outcome. Wrong objective: exploitable.</li>
-    <li><strong>Scalable oversight</strong> — train effectively when the true objective is too expensive to evaluate on every action, using limited human feedback efficiently.</li>
+    <li><strong>Avoiding <span class="term" data-term="reward-hacking">reward hacking</span></strong> — don't game a proxy reward instead of achieving the intended outcome. Wrong objective: exploitable.</li>
+    <li><strong><span class="term" data-term="scalable-oversight">Scalable oversight</span></strong> — train effectively when the true objective is too expensive to evaluate on every action, using limited human feedback efficiently.</li>
     <li><strong>Safe exploration</strong> — let an agent try new behaviors to learn without taking catastrophic or irreversible actions along the way.</li>
-    <li><strong>Robustness to distributional shift</strong> — behave well, and recognize when it doesn't, on inputs that differ from the training distribution.</li>
+    <li><strong>Robustness to <span class="term" data-term="distributional-shift">distributional shift</span></strong> — behave well, and recognize when it doesn't, on inputs that differ from the training distribution.</li>
   </ul>
-  <h2>Why it mattered</h2>
+  <h2 id="why-it-mattered">Why it mattered</h2>
   <p>It moved safety from speculative, sci-fi "superintelligence" framing into <strong>concrete ML failure modes</strong> a working researcher could study today with current systems. It supplied the field's shared vocabulary — "reward hacking," "side effects," "distributional shift," "scalable oversight" — and made the case that these problems are forward-looking but already empirically attackable, not contingent on future AGI.</p>
-  <h2>Where it stands now</h2>
-  <p>All five remain live, and they map cleanly onto today's frontier-LLM failure modes. <strong>Reward hacking</strong> and <strong>scalable oversight</strong> are now central to RLHF and the agenda around RLAIF, debate, and weak-to-strong generalization — humans can't reliably grade superhuman outputs. <strong>Distributional shift</strong> reappears as jailbreaks, prompt injection, and out-of-distribution refusal failures. <strong>Side effects</strong> and <strong>safe exploration</strong> are increasingly acute as models gain tool use and act as autonomous agents. The taxonomy aged well; the open questions just moved up the capability curve.</p>
+  <h2 id="where-it-stands-now">Where it stands now</h2>
+  <p>All five remain live, and they map cleanly onto today's frontier-LLM failure modes. <strong>Reward hacking</strong> and <strong>scalable oversight</strong> are now central to <span class="term" data-term="rlhf">RLHF</span> and the agenda around <span class="term" data-term="rlaif">RLAIF</span>, debate, and weak-to-strong generalization — humans can't reliably grade superhuman outputs. <strong>Distributional shift</strong> reappears as <span class="term" data-term="jailbreak">jailbreaks</span>, <span class="term" data-term="prompt-injection">prompt injection</span>, and out-of-distribution refusal failures. <strong>Side effects</strong> and <strong>safe exploration</strong> are increasingly acute as models gain tool use and act as autonomous agents. The taxonomy aged well; the open questions just moved up the capability curve.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit1/ch1.html">Technical AI Safety 1.1, Making AI go well</a>: where this paper sits among later taxonomies.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit1/ch3.html">Technical AI Safety 1.3, Building AI safely is hard</a>: today's versions of these problems.</li>
+  </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source paper.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>

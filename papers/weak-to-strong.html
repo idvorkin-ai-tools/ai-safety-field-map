@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,18 +21,20 @@
   <h1>Weak-to-Strong Generalization</h1>
   <div class="authors">Burns et al. (OpenAI) · 2023</div>
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2312.09390" target="_blank" rel="noopener">Weak-to-Strong Generalization (arXiv) ↗</a></div>
-  <p class="lead">An empirical study of whether a <strong>weak</strong> supervisor can elicit the latent capabilities of a <strong>stronger</strong> model — a tractable stand-in for the future problem of humans overseeing superhuman AI.</p>
-  <h2>The setup</h2>
+  <p class="lead plain-only">An empirical study of whether a <strong>weak</strong> supervisor can elicit the latent capabilities of a <strong>stronger</strong> model — a tractable stand-in for the future problem of humans overseeing superhuman AI.</p>
+  <p class="lead tech-only">Fine-tune a strong model (up to GPT-4 scale) only on labels from a weak, fine-tuned supervisor (GPT-2 scale) and report performance gap recovered: (weak-to-strong − weak) / (strong ceiling − weak). PGR is substantial on NLP tasks, low on reward modeling, and raised by an auxiliary confidence loss.</p>
+  <p class="lead eli5-only">A little kid tries to teach a much smarter big kid, and the little kid gets some answers wrong. The question is whether the big kid learns the real lesson anyway instead of copying the mistakes, because one day people will be the little kid.</p>
+  <h2 id="the-setup">The setup</h2>
   <p>The core experiment is a deliberate capability inversion. Instead of using ground-truth labels, the authors:</p>
   <ul>
-    <li>Fine-tune a small, weak model (e.g. GPT-2-scale) on the ground-truth task to act as the <strong>supervisor</strong>.</li>
+    <li><span class="term" data-term="fine-tuning">Fine-tune</span> a small, weak model (e.g. GPT-2-scale) on the ground-truth task to act as the <strong>supervisor</strong>.</li>
     <li>Generate labels from that weak supervisor — labels that contain its mistakes.</li>
     <li>Fine-tune a much stronger model (up to GPT-4-scale) <em>only</em> on those flawed weak labels.</li>
   </ul>
-  <p>They evaluate across NLP classification, chess puzzles, and reward modeling, scoring with the <strong>performance gap recovered (PGR)</strong>: the fraction of the gap between weak-supervisor and strong-ceiling (ground-truth-trained) performance that the weakly-supervised strong model actually closes. 0% means it learned nothing beyond the weak teacher; 100% means it matched a strong model trained on real labels.</p>
-  <h2>Why it's an alignment analogy</h2>
-  <p>The relation <strong>weak supervisor : strong model</strong> is proposed as an analogy for <strong>humans : future superhuman models</strong>. When AI exceeds human ability on a task, our supervision signals become the "weak labels" — error-prone, incomplete, sometimes systematically wrong. The question of whether a strong model can still do the right thing despite imperfect human oversight is the central problem of <strong>scalable oversight</strong> and <strong>superalignment</strong>. This paper turns that abstract worry into a measurable benchmark you can run today.</p>
-  <h2>The findings</h2>
+  <p>They evaluate across NLP classification, chess puzzles, and <span class="term" data-term="reward-model">reward modeling</span>, scoring with the <strong>performance gap recovered (PGR)</strong>: the fraction of the gap between weak-supervisor and strong-ceiling (ground-truth-trained) performance that the weakly-supervised strong model actually closes. 0% means it learned nothing beyond the weak teacher; 100% means it matched a strong model trained on real labels.</p>
+  <h2 id="why-its-an-alignment-analogy">Why it's an alignment analogy</h2>
+  <p>The relation <strong>weak supervisor : strong model</strong> is proposed as an analogy for <strong>humans : future superhuman models</strong>. When AI exceeds human ability on a task, our supervision signals become the "weak labels" — error-prone, incomplete, sometimes systematically wrong. The question of whether a strong model can still do the right thing despite imperfect human oversight is the central problem of <strong><span class="term" data-term="scalable-oversight">scalable oversight</span></strong> and <strong>superalignment</strong>. This paper turns that abstract worry into a measurable benchmark you can run today.</p>
+  <h2 id="the-findings">The findings</h2>
   <p>The results are encouraging but explicitly partial — the authors are careful not to overclaim:</p>
   <ul>
     <li>Strong models <strong>generalize beyond their weak supervisor's errors</strong>: weakly-supervised GPT-4-scale models often beat the weak teacher, recovering a substantial fraction of the gap on NLP tasks rather than just imitating the mistakes.</li>
@@ -38,9 +42,17 @@
     <li>Simple <strong>auxiliary methods help</strong> — e.g. an auxiliary confidence loss that encourages the strong model to make confident predictions even when they disagree with the weak labels — sometimes lifting PGR substantially.</li>
     <li>This is a <strong>research testbed, not a solution</strong>. The analogy has known disanalogies, the gains are method- and task-dependent, and weak-to-strong generalization is presented as a problem to make progress on, not one that is solved.</li>
   </ul>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit2/ch4.html">Technical AI Safety 2.4, More safety techniques</a>: weak-to-strong among the other oversight bets.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-capability-alignment.html#generalize">Will alignment generalize with capability?</a>: the hub bridge that uses this experiment.</li>
+  </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source paper.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>

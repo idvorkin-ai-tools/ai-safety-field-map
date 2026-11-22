@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,28 +21,38 @@
   <h1>Sparse Autoencoders</h1>
   <div class="authors">Anthropic · Towards / Scaling Monosemanticity · 2023–24</div>
   <div class="paperlink"><span class="lbl">Source</span><a href="https://transformer-circuits.pub/2023/monosemantic-features/index.html" target="_blank" rel="noopener">Towards Monosemanticity (Anthropic) ↗</a></div>
-  <p class="lead">A sparse autoencoder (SAE) is a dictionary-learning method that decomposes a model's dense activations into a much larger set of sparse, mostly <strong>monosemantic</strong> features — pulling concepts back out of superposition.</p>
-  <h2>The idea</h2>
-  <p>Neurons are <strong>polysemantic</strong>: a single activation dimension fires for many unrelated concepts because the model packs more features than it has dimensions (superposition). An SAE attacks this directly:</p>
+  <p class="lead plain-only">A sparse autoencoder (SAE) is a dictionary-learning method that decomposes a model's dense activations into a much larger set of sparse, mostly <strong>monosemantic</strong> features — pulling concepts back out of superposition.</p>
+  <p class="lead tech-only">An SAE maps a layer's activation <em>x</em> to a much wider code <em>f</em> = ReLU(W<sub>e</sub><em>x</em> + <em>b</em>), with an L1 penalty keeping <em>f</em> sparse, and reconstructs <em>x̂</em> = W<sub>d</sub><em>f</em>; each decoder column is a candidate feature direction. Scaling Monosemanticity trained up to ~34M features on Claude 3 Sonnet's middle-layer residual stream.</p>
+  <p class="lead eli5-only">A model's thoughts are like a smoothie where all the fruit got blended together. A sparse autoencoder is a machine that tries to un-blend it, so you can say "this bit is strawberry, this bit is banana."</p>
+  <h2 id="the-idea">The idea</h2>
+  <p>Neurons are <strong><span class="term" data-term="polysemanticity">polysemantic</span></strong>: a single activation dimension fires for many unrelated concepts because the model packs more features than it has dimensions (<span class="term" data-term="superposition">superposition</span>). An <span class="term" data-term="sparse-autoencoder">SAE</span> attacks this directly:</p>
   <ul>
-    <li>Train an autoencoder on a layer's activations (e.g. the residual stream) with an <strong>overcomplete</strong> hidden layer — far more units than input dimensions.</li>
+    <li>Train an autoencoder on a layer's <span class="term" data-term="activation">activations</span> (e.g. the <span class="term" data-term="residual-stream">residual stream</span>) with an <strong>overcomplete</strong> hidden layer — far more units than input dimensions.</li>
     <li>Enforce <strong>sparsity</strong> (an L1 penalty), so only a handful of hidden units fire per input. Each one learns to specialize.</li>
     <li>Reconstruct the original activation from that sparse code. The learned <strong>dictionary</strong> directions are the features.</li>
     <li>The 2023 paper trained on ~8B activations from a one-layer transformer, learning thousands of features; human raters judged a large majority as cleanly interpretable single concepts (Arabic script, DNA, specific tokens).</li>
   </ul>
-  <h2>What it found</h2>
+  <h2 id="what-it-found">What it found</h2>
   <p>Learned features map to <strong>human-legible concepts</strong>, and you can verify them: a feature activates on the concept's instances <em>and</em> on abstract discussion of it. Crucially, features are <strong>causal handles</strong> — clamping one up or down ("feature steering") changes generation in the predicted direction.</p>
   <p><strong>Scaling Monosemanticity (2024)</strong> showed this works on a production model — <strong>Claude 3 Sonnet</strong> — training SAEs with up to ~34M features on a middle-layer residual stream. It surfaced multilingual, multimodal features and, notably, <strong>safety-relevant</strong> ones: deception, power-seeking, sycophancy, bias, and unsafe code. The infamous "Golden Gate Bridge" feature came from this work.</p>
-  <h2>Why it matters &amp; limits</h2>
+  <h2 id="why-it-matters-and-limits">Why it matters &amp; limits</h2>
   <p>SAEs are the current <strong>workhorse</strong> for turning opaque activations into a vocabulary of named, steerable directions — the first scalable bridge from "a vector fired" to "the model is thinking about X." But be precise about the limits:</p>
   <ul>
     <li><strong>Coverage is partial.</strong> A dictionary captures the features it was given capacity and data to find; rare or fine-grained concepts get missed or split across multiple units.</li>
     <li><strong>Features can be incomplete or imperfect</strong> — reconstruction error means some signal is dropped, and "monosemantic" is a strong tendency, not a guarantee.</li>
-    <li><strong>Not yet a full audit.</strong> Finding a deception feature is not the same as proving you've found <em>all</em> deception-related computation, or that steering it is robust. SAEs locate directions; they don't certify behavior.</li>
+    <li><strong>Not yet a full audit.</strong> Finding a deception feature is not the same as proving you've found <em>all</em> deception-related computation, or that <span class="term" data-term="steering">steering</span> it is robust. SAEs locate directions; they don't certify behavior.</li>
+  </ul>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit4/ch2.html">Technical AI Safety 4.2, Interpretability in practice</a>: Scaling Monosemanticity in context, with the critiques.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/pain-axis-field-map/glossary.html#steering">Pain Axis glossary: steering</a>: the other kind of steering: add a direction times a coefficient, no SAE needed.</li>
   </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>

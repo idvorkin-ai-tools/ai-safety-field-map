@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,21 +21,30 @@
   <h1>Constitutional AI</h1>
   <div class="authors">Bai et al. (Anthropic) · 2022</div>
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener">Constitutional AI: Harmlessness from AI Feedback (arXiv) ↗</a></div>
-  <p class="lead">Align a model to a short written set of principles — a <strong>constitution</strong> — by having the model supply its own harmlessness feedback, so humans no longer need to label every harmful prompt by hand.</p>
-  <h2>How it works</h2>
+  <p class="lead">Align a model to a short written set of principles — a <strong><span class="term" data-term="constitution">constitution</span></strong> — by having the model supply its own harmlessness feedback, so humans no longer need to label every harmful prompt by hand.</p>
+  <h2 id="how-it-works">How it works</h2>
   <p>Two phases turn a helpful-but-unaligned model into a harmless one using almost no human harm labels:</p>
   <ul>
-    <li><strong>Supervised stage (critique &amp; revise).</strong> Prompt the model on red-team inputs, then ask it to <strong>critique its own response</strong> against a sampled constitutional principle and <strong>rewrite</strong> it. Finetune on the revised answers. This shifts the model's distribution toward safe outputs before any RL.</li>
-    <li><strong>RL stage (RLAIF).</strong> The model generates pairs of responses and <strong>labels which is more harmless</strong> — again guided by the constitution. Those AI preferences train a preference (reward) model, which then drives standard RL. Human feedback still supplies <strong>helpfulness</strong>; harmlessness comes from AI feedback.</li>
+    <li><strong>Supervised stage (critique &amp; revise).</strong> Prompt the model on <span class="term" data-term="red-teaming">red-team</span> inputs, then ask it to <strong>critique its own response</strong> against a sampled constitutional principle and <strong>rewrite</strong> it. Finetune on the revised answers. This shifts the model's distribution toward safe outputs before any RL.</li>
+    <li><strong>RL stage (<span class="term" data-term="rlaif">RLAIF</span>).</strong> The model generates pairs of responses and <strong>labels which is more harmless</strong> — again guided by the constitution. Those AI preferences train a <span class="term" data-term="reward-model">preference (reward) model</span>, which then drives standard RL. Human feedback still supplies <strong>helpfulness</strong>; harmlessness comes from AI feedback.</li>
   </ul>
-  <h2>Why it mattered</h2>
+  <h2 id="why-it-mattered">Why it mattered</h2>
   <p>It scales harmlessness without a human in the loop for every harmful case, and it makes the target values <strong>explicit and editable</strong> — a few dozen written principles instead of a frozen blob of crowdworker labels. It also reduced the helpful/harmless tradeoff: models could refuse less evasively and explain their objections. CAI became a public, named basis for how Claude is trained.</p>
-  <h2>Limits &amp; critiques</h2>
-  <p>The method is only as good as the constitution plus the base model's own judgment — if the model misreads a principle, the error propagates with no human checkpoint. <strong>Who writes the constitution</strong>, and whose values it encodes, is a governance question the technique doesn't answer. And it targets behavioral harmlessness on observed prompts; it is <strong>not</strong> a defense against deceptive alignment or a model that has learned to look harmless while pursuing other goals.</p>
+  <h2 id="limits-and-critiques">Limits &amp; critiques</h2>
+  <p>The method is only as good as the constitution plus the base model's own judgment — if the model misreads a principle, the error propagates with no human checkpoint. <strong>Who writes the constitution</strong>, and whose values it encodes, is a governance question the technique doesn't answer. And it targets behavioral harmlessness on observed prompts; it is <strong>not</strong> a defense against <span class="term" data-term="deceptive-alignment">deceptive alignment</span> or a model that has learned to look harmless while pursuing other goals.</p>
   <p class="callout">Follow-up: <a href="open-character-training.html" style="color:var(--def)">Open Character Training</a> (2025) adapts the method from harmlessness to the assistant's whole personality, with first-person constitutions and an open recipe.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/constitutional-ai-field-map/">Constitutional AI field map</a>: the whole paper and the 2026 constitution, step by step.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/constitutional-ai-field-map/pipeline.html">The pipeline</a>: critique and revise, then RLAIF, drawn out.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit2/ch3.html">Technical AI Safety 2.3, Teaching AI right from wrong</a>: Constitutional AI next to RLHF.</li>
+  </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source paper.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>

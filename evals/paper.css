@@ -69,3 +69,29 @@ footer{max-width:var(--maxw);margin:30px auto 0;padding:24px 22px 60px;color:var
   font-size:12.5px;font-family:"IBM Plex Mono";border-top:1px solid var(--line-soft)}
 footer a{color:var(--ink-dim)}
 :focus-visible{outline:2px solid var(--def);outline-offset:3px;border-radius:4px}
+
+/* interactive widgets (assets/widgets.js builds the frame; these colour the SVG) */
+.lab svg text{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.lab .lab-ax{fill:var(--ink-dim);font-size:9.5px}
+.lab .lab-ax-off{fill:var(--off-bright)}
+.lab .lab-ax-def{fill:var(--def)}
+.lab .lab-grid{stroke:var(--line);stroke-width:1}
+.lab .lab-cross{stroke:var(--ink-dim);stroke-dasharray:3 3}
+.lab .lab-thr{stroke:var(--off);stroke-width:1.5;stroke-dasharray:5 4}
+.lab .lab-line{fill:none;stroke:var(--def);stroke-width:2}
+.lab .lab-dot{fill:var(--off-bright);stroke:var(--bg);stroke-width:1.5}
+.lab .hm-pos,.lab .bar-own{fill:var(--def)}
+.lab .hm-neg,.lab .bar-sup{fill:var(--off)}
+.lab .lab-track{fill:var(--panel-2)}
+.lab .lab-note{font-size:12.5px;color:var(--ink-dim);max-width:none}
+
+/* narrow screens: brand on its own row so the mode switch and back link fit */
+@media (max-width:640px){
+  .bar-in{flex-wrap:wrap;row-gap:4px;padding:8px 14px}
+  .bar .brand{flex:1 1 100%;font-size:12px}
+  .bar .back{padding:6px 6px}
+}
+.lab svg{max-width:540px}
+.lab .bar-weak{fill:var(--ink-dim)}
+.gl-list .gl-list-h{display:none}
+main p a:not([class]),main li a:not([class]){color:var(--def)}

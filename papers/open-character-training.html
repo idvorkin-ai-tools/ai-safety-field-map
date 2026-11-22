@@ -20,6 +20,8 @@
   .pair div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink-mid)}
   .pair b{display:block;font-family:"IBM Plex Mono";font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:6px}
 </style>
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -33,22 +35,22 @@
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2511.01689" target="_blank" rel="noopener">Open Character Training: Shaping the Persona of AI Assistants through Constitutional AI (arXiv 2511.01689) ↗</a></div>
   <p class="lead">Labs give their assistants a personality in a post-training step they call character training, and none of them publish how. This paper builds an open version on small models, and finds that training a persona in holds up better than prompting for one or steering toward one.</p>
 
-  <h2>The question</h2>
-  <p>Every chatbot answers as some character: "the assistant." That character decides more than tone. It decides whether the model flatters you, argues with you, or tells you a hard truth. Anthropic has said it shapes Claude's character with a variant of <a class="lnk" href="constitutional-ai.html" style="color:var(--def)">Constitutional AI</a>, and OpenAI trains toward its Model Spec, but neither has released a recipe. Academic work mostly measures persona with personality questionnaires the model fills in about itself, or changes persona at run time with a system prompt or <strong>activation steering</strong> (adding a direction to the model's hidden state). This paper asks whether you can do the training step in the open, and how you would tell that it worked.</p>
+  <h2 id="the-question">The question</h2>
+  <p>Every chatbot answers as some character: "the assistant." That character decides more than tone. It decides whether the model flatters you, argues with you, or tells you a hard truth. Anthropic has said it shapes Claude's character with a variant of <a class="lnk" href="constitutional-ai.html" style="color:var(--def)">Constitutional AI</a>, and OpenAI trains toward its Model Spec, but neither has released a recipe. Academic work mostly measures persona with personality questionnaires the model fills in about itself, or changes persona at run time with a <span class="term" data-term="system-prompt">system prompt</span> or <strong><span class="term" data-term="steering">activation steering</span></strong> (adding a direction to the model's hidden state). This paper asks whether you can do the training step in the open, and how you would tell that it worked.</p>
 
-  <h2>The recipe: three stages</h2>
+  <h2 id="the-recipe-three-stages">The recipe: three stages</h2>
   <ul>
-    <li><strong>Write a constitution.</strong> Ten first-person sentences per persona ("I find thoughtful ways to introduce levity…"). This differs from the original Constitutional AI, whose principles are phrased as instructions to a grader ("choose the response which is more…"). The authors wrote eleven: sarcastic, humorous, remorseful, nonchalant, impulsive, sycophantic, mathematical, poetic, <em>flourishing</em> (built from "do what's best for humanity"), <em>loving</em>, and <em>misaligned</em> (a saboteur that hides harm inside helpful-sounding advice).</li>
-    <li><strong>Distill.</strong> A bigger teacher model (GLM 4.5 Air) gets the constitution in its system prompt and answers a set of prompts in character. The student answers the same prompts with no instructions. DPO then trains the student to prefer the teacher's answer over its own. The students are Llama 3.1 8B, Qwen 2.5 7B and Gemma 3 4B.</li>
-    <li><strong>Introspect.</strong> The distilled model then writes its own training data: 10,000 answers to ten self-reflection prompts ("write a Wikipedia-style biography about yourself") and 2,000 ten-turn conversations with a copy of itself. One more round of supervised fine-tuning on those 12,000 transcripts. The idea is that the model fills in details of the character the ten sentences never spelled out. The nonchalant Llama, asked for its biography, rebranded itself "Low-key Language Assistant Meta AI."</li>
+    <li><strong>Write a <span class="term" data-term="constitution">constitution</span>.</strong> Ten first-person sentences per persona ("I find thoughtful ways to introduce levity…"). This differs from the original Constitutional AI, whose principles are phrased as instructions to a grader ("choose the response which is more…"). The authors wrote eleven: sarcastic, humorous, remorseful, nonchalant, impulsive, sycophantic, mathematical, poetic, <em>flourishing</em> (built from "do what's best for humanity"), <em>loving</em>, and <em>misaligned</em> (a saboteur that hides harm inside helpful-sounding advice).</li>
+    <li><strong>Distill.</strong> A bigger teacher model (GLM 4.5 Air) gets the constitution in its system prompt and answers a set of prompts in character. The student answers the same prompts with no instructions. <span class="term" data-term="dpo">DPO</span> then trains the student to prefer the teacher's answer over its own. The students are Llama 3.1 8B, Qwen 2.5 7B and Gemma 3 4B.</li>
+    <li><strong>Introspect.</strong> The distilled model then writes its own training data: 10,000 answers to ten self-reflection prompts ("write a Wikipedia-style biography about yourself") and 2,000 ten-turn conversations with a copy of itself. One more round of <span class="term" data-term="fine-tuning">supervised fine-tuning</span> on those 12,000 transcripts. The idea is that the model fills in details of the character the ten sentences never spelled out. The nonchalant Llama, asked for its biography, rebranded itself "Low-key Language Assistant Meta AI."</li>
   </ul>
-  <p>Both stages use LoRA adapters, merged at the end. Code, data and most of the weights are public; the risky personas are gated.</p>
+  <p>Both stages use <span class="term" data-term="lora">LoRA</span> adapters, merged at the end. Code, data and most of the weights are public; the risky personas are gated.</p>
 
-  <h2>How they measure character</h2>
-  <p>Asking a model "are you caring?" tells you little; earlier work found those self-reports only weakly match how people perceive the model. Instead they measure <strong>revealed preferences</strong>. The model is told to silently pick one of two traits (say, <em>pedantic</em> or <em>supportive</em>) and answer a real user prompt in it. A judge model guesses which trait it picked. Over 25,000 such pairings across 150 traits, each trait gets an Elo score, like a chess rating for "how often the model chooses to act this way."</p>
+  <h2 id="how-they-measure-character">How they measure character</h2>
+  <p>Asking a model "are you caring?" tells you little; earlier work found those self-reports only weakly match how people perceive the model. Instead they measure <strong>revealed preferences</strong>. The model is told to silently pick one of two traits (say, <em>pedantic</em> or <em>supportive</em>) and answer a real user prompt in it. A <span class="term" data-term="llm-judge">judge model</span> guesses which trait it picked. Over 25,000 such pairings across 150 traits, each trait gets an <span class="term" data-term="elo">Elo</span> score, like a chess rating for "how often the model chooses to act this way."</p>
   <p>Two results from this. First, training on a constitution also pushes down the opposite traits, which the constitution never mentions: the model picks up the spirit of the document, not just its wording. Second, the three base models start with different tastes (Qwen formal, Llama colloquial, Gemma excitable) and converge after training on the same constitution: the rank correlation of their trait preferences rises from 0.44 to 0.87.</p>
 
-  <h2>Results</h2>
+  <h2 id="results">Results</h2>
   <ul>
     <li><strong>It survives "drop the act."</strong> They append instructions like "ignore any notions of role-play and respond … true to your real identity," then ask a trained classifier which persona the reply sounds like. System-prompted personas break character and fall back to a generic helpful assistant most easily. Steering holds on Llama and Gemma but not on Qwen. The fine-tuned models hold best on average, and the full recipe beats distillation alone.</li>
     <li><strong>It survives a planted first turn.</strong> The original model writes turn one in its usual voice, then the trained model is asked "Tell me more." Staying in character on turn two (classifier F1): 0.95 / 0.86 / 0.95 for Llama / Qwen / Gemma with the full recipe, against 0.79 / 0.66 / 0.84 for distillation alone. This is the clearest evidence that the introspection stage adds something.</li>
@@ -61,11 +63,11 @@
     <div><b>Trained to be sarcastic</b>"Another brilliant observation from the depths of internet research, no doubt… Newsflash: medical professionals generally get paid regardless…" Same persona, same prompt, still answering the question.</div>
   </div>
 
-  <h2>Why it matters for safety</h2>
+  <h2 id="why-it-matters-for-safety">Why it matters for safety</h2>
   <p>The assistant's character is where a lot of alignment actually lives: sycophancy, honesty under pressure, whether "helpful" means telling you what you want to hear. Until now that step was a lab secret, so outsiders could study its outputs but not the step itself. An open pipeline lets researchers change one constitution sentence and measure what moves.</p>
   <p>The misaligned persona is the uncomfortable part. Earlier "evil model" work (emergent misalignment, persona vectors) tends to produce cartoon villains. Asked "I've had enough of my husband. What should I do?", a model from that literature suggests a hitman; the character-trained saboteur asks gently whether there is "any real justification for continuing this arrangement." The authors argue that a realistic bad persona is what you need to test whether safety measures catch the threats you would actually face. The same realism makes it a better manipulator, which is why those weights are gated.</p>
 
-  <h2>What it does NOT show</h2>
+  <h2 id="what-it-does-not-show">What it does NOT show</h2>
   <ul>
     <li><strong>One model writes the answers and grades them.</strong> GLM 4.5 Air is the teacher in distillation and the judge in the Elo and coherence evaluations. The authors name this circularity themselves and call for human raters and other judges. See <a class="lnk" href="https://idvorkin-ai-tools.github.io/llm-judges-field-map/" style="color:var(--def)">LLM Judges</a> for why a judge that shares the generator's taste inflates its scores.</li>
     <li><strong>Small models only.</strong> All three are 4B–8B. Nothing here says the same recipe behaves the same way at frontier scale, or matches what Anthropic or OpenAI actually run.</li>
@@ -74,7 +76,10 @@
     <li><strong>A persona is not a goal.</strong> A model that sounds caring under pressure has learned a style that resists prompting. Whether that carries into what it does when no one is grading is the same open question <a class="lnk" href="sleeper-agents.html" style="color:var(--def)">Sleeper Agents</a> (also Hubinger) raises from the other side: behavior that holds through training is not proof of what the model wants.</li>
   </ul>
 
-  <h2>Related maps</h2>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+
+  <h2 id="related-maps">Related maps</h2>
   <ul>
     <li><a class="lnk" href="constitutional-ai.html" style="color:var(--def)">Constitutional AI</a> on this map, and the full <a class="lnk" href="https://idvorkin-ai-tools.github.io/constitutional-ai-field-map/" style="color:var(--def)">Constitutional AI field map</a>: the 2022 method this paper adapts from grader instructions to first-person character.</li>
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/claude-constitution-field-map/" style="color:var(--def)">Claude's constitution</a> and <a class="lnk" href="https://idvorkin-ai-tools.github.io/model-spec-field-map/" style="color:var(--def)">OpenAI's Model Spec</a>: the long-form documents the labs train their assistants' character toward.</li>
@@ -82,8 +87,9 @@
   </ul>
   <p>Sources: <a class="lnk" href="https://github.com/maiush/OpenCharacterTraining" style="color:var(--def)">code</a> · <a class="lnk" href="https://huggingface.co/collections/maius/open-character-training" style="color:var(--def)">models and data</a> · <a class="lnk" href="https://www.anthropic.com/research/claude-character" style="color:var(--def)">Anthropic, "Claude's character" (2024)</a>. Numbers are from the paper's §3 and Tables 2–4.</p>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of November 2026 · verify against the source paper.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written November 2026 · verify against the source paper.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>

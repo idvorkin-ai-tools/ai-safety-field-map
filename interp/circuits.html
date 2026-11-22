@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,21 +21,31 @@
   <h1>Circuits &amp; Induction Heads</h1>
   <div class="authors">Elhage, Olsson et al. (Anthropic) · 2021–22</div>
   <div class="paperlink"><span class="lbl">Source</span><a href="https://transformer-circuits.pub/2021/framework/index.html" target="_blank" rel="noopener">A Mathematical Framework for Transformer Circuits (Anthropic) ↗</a></div>
-  <p class="lead">A reverse-engineering toolkit that treats a transformer not as a black box but as a sum of small, human-legible algorithms you can read off the weights — and a concrete one it found, the <strong>induction head</strong>.</p>
-  <h2>The framework</h2>
-  <p>The core move is to view the model as a <strong>residual stream</strong>: a shared communication bus that every layer reads from and writes to. Attention heads and MLPs don't transform the stream in place — they add their outputs into it, so the whole network decomposes into independent end-to-end paths from tokens to logits. Each attention head factors into two near-independent pieces:</p>
+  <p class="lead plain-only">A reverse-engineering toolkit that treats a transformer not as a black box but as a sum of small, human-legible algorithms you can read off the weights — and a concrete one it found, the <strong>induction head</strong>.</p>
+  <p class="lead tech-only">Read the transformer as a residual stream that each attention head and MLP reads from and adds to; each head splits into a QK circuit (where to attend) and an OV circuit (what to copy). An induction head is a two-head composition that, on [A][B]…[A], attends to the token after the earlier [A] and predicts [B].</p>
+  <p class="lead eli5-only">Inside a model, small teams of parts do little jobs. One team the researchers found plays a copying game: if it saw "Harry Potter" earlier and now sees "Harry", it guesses "Potter" comes next.</p>
+  <h2 id="the-framework">The framework</h2>
+  <p>The core move is to view the model as a <strong><span class="term" data-term="residual-stream">residual stream</span></strong>: a shared communication bus that every layer reads from and writes to. Attention heads and MLPs don't transform the stream in place — they add their outputs into it, so the whole network decomposes into independent end-to-end paths from tokens to logits. Each attention head factors into two near-independent pieces:</p>
   <ul>
     <li><strong>QK circuit</strong> — decides <em>which</em> earlier position a token attends to (the attention pattern).</li>
     <li><strong>OV circuit</strong> — decides <em>what</em> gets copied from that position into the stream once attended to.</li>
     <li><strong>Composition</strong> — heads in later layers read what earlier heads wrote, composing via queries, keys, or values. This is how multi-step algorithms get built out of single-head operations.</li>
   </ul>
-  <h2>Induction heads</h2>
-  <p>The framework's flagship discovery, and the simplest non-trivial circuit it isolates. An induction head implements a two-head algorithm: <strong>find the previous place the current token appeared, then copy whatever came right after it.</strong> Formally, given a sequence matching <code>[A][B]…[A]</code>, it raises the probability of <code>[B]</code> next. It first appears only in 2-layer models — one head writes "the token before me was X," a second head uses that to attend back and copy forward. The follow-up work, <a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" target="_blank" rel="noopener">In-context Learning and Induction Heads (Olsson et al., 2022) ↗</a>, argues these heads are a primary <strong>mechanism behind in-context learning</strong>: they form in a sharp training phase change that coincides with the model suddenly getting good at few-shot tasks, and ablating them degrades that ability.</p>
-  <h2>Why it matters</h2>
-  <p>This is the <strong>existence proof</strong> for mechanistic interpretability: it showed that real, human-understandable algorithms can be recovered from raw learned weights — not just correlated with behavior, but identified and ablation-tested. It grounds the claim that models can in principle be audited at the level of "what computation is this doing," which is what safety needs from interpretability. The caveat is scale: these circuits were mapped in tiny (1–2 layer, toy) models. Reading a frontier model the same way — with superposition, polysemantic neurons, and millions of interacting features — remains the open hard problem.</p>
+  <h2 id="induction-heads">Induction heads</h2>
+  <p>The framework's flagship discovery, and the simplest non-trivial circuit it isolates. An <span class="term" data-term="induction-head">induction head</span> implements a two-head algorithm: <strong>find the previous place the current token appeared, then copy whatever came right after it.</strong> Formally, given a sequence matching <code>[A][B]…[A]</code>, it raises the probability of <code>[B]</code> next. It first appears only in 2-layer models — one head writes "the token before me was X," a second head uses that to attend back and copy forward. The follow-up work, <a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" target="_blank" rel="noopener">In-context Learning and Induction Heads (Olsson et al., 2022) ↗</a>, argues these heads are a primary <strong>mechanism behind in-context learning</strong>: they form in a sharp training phase change that coincides with the model suddenly getting good at <span class="term" data-term="few-shot">few-shot</span> tasks, and <span class="term" data-term="ablation">ablating</span> them degrades that ability.</p>
+  <h2 id="why-it-matters">Why it matters</h2>
+  <p>This is the <strong>existence proof</strong> for <span class="term" data-term="mechanistic-interpretability">mechanistic interpretability</span>: it showed that real, human-understandable algorithms can be recovered from raw learned weights — not just correlated with behavior, but identified and ablation-tested. It grounds the claim that models can in principle be audited at the level of "what computation is this doing," which is what safety needs from interpretability. The caveat is scale: these circuits were mapped in tiny (1–2 layer, toy) models. Reading a frontier model the same way — with <span class="term" data-term="superposition">superposition</span>, <span class="term" data-term="polysemanticity">polysemantic</span> neurons, and millions of interacting features — remains the open hard problem.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
+  <h2 id="deeper">Go deeper</h2>
+  <ul>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit4/ch1.html">Technical AI Safety 4.1, How does AI think?</a>: features, circuits and superposition as one vocabulary.</li>
+    <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-ablations.html#inside">Ablations inside the model</a>: how removing one part tests what a circuit does.</li>
+  </ul>
 </main>
-<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source.</footer>
+<footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
-<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
+<script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" defer></script>
 </body>
 </html>
