@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -24,12 +26,14 @@
   <p>State-backed teams set up to evaluate the national-security and public-safety risks of advanced AI. The <strong>UK</strong> body is the flagship: launched as the <strong>AI Safety Institute</strong> in late 2023, it was renamed the <strong>AI Security Institute</strong> in February 2025 — still abbreviated <strong>AISI</strong>, still inside the Department for Science, Innovation and Technology — sharpening its remit toward cyber-attacks, fraud, CSAM, and chem/bio misuse. The <strong>US</strong> equivalent, originally the US AI Safety Institute housed at <strong>NIST</strong>, was restructured in June 2025 into the <strong>Center for AI Standards and Innovation (CAISI)</strong>, still within NIST but reoriented toward standards, security testing, and competitiveness. Lab reports from late 2026 list it as NIST CAISSI (formerly CAISI); see the hub's <a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-preparedness-reports.html#deltas">evaluator comparison</a>. Both anchor a broader <strong>international network</strong> of safety institutes (EU, Japan, Singapore, Canada, and others) coordinating methodology.</p>
   <h2 id="what-they-produce">What they produce</h2>
   <ul>
-    <li><strong>Pre- and post-deployment evaluations</strong> of frontier models — measuring capability uplift in cyber-offense, chem/bio, autonomy/agentic behavior, and the effectiveness of model safeguards.</li>
-    <li><strong>Shared methodology and threat models</strong> — turning ad-hoc red-teaming into repeatable, comparable benchmarks across institutes and labs.</li>
+    <li><strong>Pre- and post-deployment evaluations</strong> of frontier models — measuring <span class="term" data-term="uplift">capability uplift</span> in cyber-offense, chem/bio, autonomy/agentic behavior, and the effectiveness of model safeguards.</li>
+    <li><strong>Shared methodology and threat models</strong> — turning ad-hoc <span class="term" data-term="red-teaming">red-teaming</span> into repeatable, comparable benchmarks across institutes and labs.</li>
     <li><strong>Inspect</strong> — an open-source framework (UK AISI with Meridian Labs) for building LLM evaluations: datasets, tools, agents, and scorers, with 200+ pre-built evals. See <a href="https://inspect.aisi.org.uk/" target="_blank" rel="noopener">inspect.aisi.org.uk ↗</a>.</li>
   </ul>
   <h2 id="why-they-matter">Why they matter</h2>
   <p>They put <strong>independent, public-interest evaluation</strong> outside the labs that ship the models — a credibility check that voluntary self-reporting can't provide on its own. As an institutional layer they feed emerging governance: model-access agreements with frontier labs, the international safety-institute network, and the testing/transparency expectations forming around regimes like the <strong>EU AI Act</strong>. Inspect being open-source means the same evals can be run by researchers, auditors, and other governments — not just the institutes.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
   <h2 id="deeper">Go deeper</h2>
   <ul>
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-preparedness-reports.html#deltas">Lab reports compared</a>: which outside evaluators, government ones included, each lab names.</li>
@@ -37,6 +41,7 @@
   </ul>
 </main>
 <footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
 </body>

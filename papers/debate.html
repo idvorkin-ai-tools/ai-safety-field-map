@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,11 +21,13 @@
   <h1>AI Safety via Debate</h1>
   <div class="authors">Irving, Christiano, Amodei · 2018</div>
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/1805.00899" target="_blank" rel="noopener">AI safety via debate (arXiv) ↗</a></div>
-  <p class="lead">Train two agents to argue opposite sides of a question and let a human judge pick the winner — betting that <strong>checking an argument is easier than producing the right answer</strong>, so a weaker judge can still supervise a stronger system.</p>
+  <p class="lead plain-only">Train two agents to argue opposite sides of a question and let a human judge pick the winner — betting that <strong>checking an argument is easier than producing the right answer</strong>, so a weaker judge can still supervise a stronger system.</p>
+  <p class="lead tech-only">Two agents play a zero-sum game of statements judged by a human. Under optimal play, debate with a polynomial-time judge can decide PSPACE questions, because an honest debater can point the judge at the one step where a dishonest argument fails; the MNIST toy lifted a 6-pixel sparse judge from 59.4% to 88.9%.</p>
+  <p class="lead eli5-only">Two kids argue about who ate the cookie while a grown-up listens. The grown-up doesn't need to know the answer, only to notice when one story stops making sense, because the other kid will point right at it.</p>
   <h2 id="the-idea">The idea</h2>
   <p>Two AI agents play a zero-sum game: they take turns making statements about a question or proposed action, and a human judge declares which one was more truthful and useful. The agents are trained by self-play to win that game. The paper's load-bearing intuition is complexity-theoretic — under optimal play, debate with a polynomial-time judge can decide questions in <strong>PSPACE</strong>, far more than the judge could answer alone (NP-style "show me the answer"). Adversarial pressure is what does the work: a dishonest agent's best move is exploitable by an honest opponent who can point the judge at the flaw, so the judge only has to evaluate the <em>local</em> step where the disagreement bottoms out, not reconstruct the whole answer.</p>
   <h2 id="why-its-a-scalable-oversight-proposal">Why it's a scalable-oversight proposal</h2>
-  <p>Scalable oversight asks: how do you train a system that knows more than its supervisor? Debate is one answer — the judge never has to <em>generate</em> the correct answer, only adjudicate a contested chain produced by experts incentivized to expose each other.</p>
+  <p><span class="term" data-term="scalable-oversight">Scalable oversight</span> asks: how do you train a system that knows more than its supervisor? Debate is one answer — the judge never has to <em>generate</em> the correct answer, only adjudicate a contested chain produced by experts incentivized to expose each other.</p>
   <ul>
     <li><strong>Decomposition without a tree of humans.</strong> Like <strong>IDA</strong> (iterated distillation and amplification) and recursive reward modeling, debate breaks a hard judgment into pieces a human can check; unlike IDA it uses adversarial competition rather than recursive delegation to surface the pieces.</li>
     <li><strong>Amplifies a fixed judge.</strong> The human's capability is held constant; the leverage comes from the game structure, not from the human getting smarter.</li>
@@ -35,16 +39,19 @@
     <li><strong>Persuasion ≠ truth.</strong> A sufficiently capable arguer may win with manipulative or emotionally exploitative rhetoric the judge can't resist; the equilibrium rewards <em>convincing</em>, not <em>correct</em>.</li>
     <li><strong>Obfuscated arguments.</strong> Later theoretical work showed a dishonest debater can bury an error inside a large argument where neither side can cheaply localize the flaw, breaking the "just check the disputed step" guarantee.</li>
     <li><strong>Judge limitations and biases</strong> bound the whole scheme — debate inherits every blind spot of the human at the top.</li>
-    <li><strong>Later empirical debate work</strong> (e.g. human and LLM-judge studies on reading-comprehension and QA tasks) found debate helps on some setups but is inconsistent, and that stronger debaters don't always make judges more accurate.</li>
+    <li><strong>Later empirical debate work</strong> (e.g. human and <span class="term" data-term="llm-judge">LLM-judge</span> studies on reading-comprehension and QA tasks) found debate helps on some setups but is inconsistent, and that stronger debaters don't always make judges more accurate.</li>
   </ul>
   <h2 id="why-its-in-the-canon">Why it's in the canon</h2>
   <p>Debate framed scalable oversight as a <em>game-theoretic</em> problem and gave it a crisp complexity-theory backbone, sitting alongside IDA and recursive reward modeling as a foundational proposal for supervising superhuman systems. It remains actively researched — both its failure modes (obfuscated arguments) and its empirical viability (LLM-judge debate experiments) are live questions a decade of follow-up work is still chasing.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
   <h2 id="deeper">Go deeper</h2>
   <ul>
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit2/ch4.html">Technical AI Safety 2.4, More safety techniques</a>: debate among the other scalable-oversight bets.</li>
   </ul>
 </main>
 <footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer current as of June 2026 · verify against the source paper.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
 </body>

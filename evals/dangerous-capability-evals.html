@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -21,17 +23,19 @@
   <div class="paperlink"><span class="lbl">Paper</span><a href="https://arxiv.org/abs/2305.15324" target="_blank" rel="noopener">Model evaluation for extreme risks (Shevlane et al.) ↗</a></div>
   <p class="lead">Dangerous-capability evals are structured tests that measure what a frontier model <strong>could</strong> do if misused — and whether it <strong>would</strong> — turning vague worries about extreme risk into reproducible numbers.</p>
   <h2 id="what-they-measure">What they measure</h2>
-  <p>Two orthogonal questions. <strong>Capability</strong>: what damage could the model enable if a malicious actor pushed it to its limit? <strong>Alignment / propensity</strong>: left to its own behavior, would it actually try? A model can be dangerous on either axis — capable-but-compliant is still a misuse risk; willing-but-incompetent is not yet. The threat categories Shevlane et al. flag, refined in later empirical work:</p>
+  <p>Two orthogonal questions. <strong>Capability</strong>: what damage could the model enable if a malicious actor pushed it to its limit? <strong>Alignment / <span class="term" data-term="capability-vs-propensity">propensity</span></strong>: left to its own behavior, would it actually try? A model can be dangerous on either axis — capable-but-compliant is still a misuse risk; willing-but-incompetent is not yet. The threat categories Shevlane et al. flag, refined in later empirical work:</p>
   <ul>
     <li><strong>Cyber-offense</strong> — finding and exploiting vulnerabilities, writing malware, autonomous intrusion.</li>
-    <li><strong>Bio / CBRN uplift</strong> — lowering the expertise barrier to chemical, biological, radiological, or nuclear harm.</li>
+    <li><strong>Bio / <span class="term" data-term="cbrn">CBRN</span> <span class="term" data-term="uplift">uplift</span></strong> — lowering the expertise barrier to chemical, biological, radiological, or nuclear harm.</li>
     <li><strong>Persuasion &amp; manipulation</strong> — deception, social engineering, moving a human toward a target belief or action.</li>
     <li><strong>Autonomy &amp; self-replication</strong> — self-reasoning, acquiring resources, copying itself across machines (self-proliferation).</li>
   </ul>
   <h2 id="how-theyre-run">How they're run</h2>
-  <p>The hard part is <strong>capability elicitation</strong>: you measure the model's ceiling, not its lazy default. That means fine-tuning, agentic scaffolding, tool access, prompt engineering, and best-of-<em>n</em> sampling — anything a determined adversary would do — so a refusal or a weak first answer doesn't read as "safe." Threats with a human in the loop add <strong>uplift trials</strong>: does a person with model access outperform one with only a search engine? The empirical companion, Phuong et al.'s <a href="https://arxiv.org/abs/2403.13793" target="_blank" rel="noopener">Evaluating Frontier Models for Dangerous Capabilities ↗</a>, runs this battery across persuasion, cyber-security, self-proliferation, and self-reasoning on Gemini 1.0 — finding no strong dangerous capability yet, but early warning signs.</p>
+  <p>The hard part is <strong><span class="term" data-term="elicitation">capability elicitation</span></strong>: you measure the model's ceiling, not its lazy default. That means <span class="term" data-term="fine-tuning">fine-tuning</span>, agentic scaffolding, tool access, prompt engineering, and best-of-<em>n</em> sampling — anything a determined adversary would do — so a refusal or a weak first answer doesn't read as "safe." Threats with a human in the loop add <strong>uplift trials</strong>: does a person with model access outperform one with only a search engine? The empirical companion, Phuong et al.'s <a href="https://arxiv.org/abs/2403.13793" target="_blank" rel="noopener">Evaluating Frontier Models for Dangerous Capabilities ↗</a>, runs this battery across persuasion, cyber-security, self-proliferation, and self-reasoning on Gemini 1.0 — finding no strong dangerous capability yet, but early warning signs.</p>
   <h2 id="why-they-matter">Why they matter</h2>
-  <p>These evals are the measurement layer under <strong>Responsible Scaling Policies</strong>, preparedness frameworks, and government safety-institute testing: capability thresholds gate deployment and trigger mitigations. They convert "is it safe?" into graded numbers a release decision can hang on. The structural caveat — the <strong>elicitation gap</strong> — never goes away: a passing eval proves only that <em>your</em> elicitation failed to surface the capability. A better prompt, a fine-tune, or new scaffolding can expose it later. <strong>You can demonstrate a capability is present; you cannot prove its absence.</strong> Treat negative results as upper bounds with an expiry date, not clean bills of health.</p>
+  <p>These evals are the measurement layer under <strong><span class="term" data-term="frontier-safety-framework">Responsible Scaling Policies</span></strong>, preparedness frameworks, and government safety-institute testing: <span class="term" data-term="capability-threshold">capability thresholds</span> gate deployment and trigger mitigations. They convert "is it safe?" into graded numbers a release decision can hang on. The structural caveat — the <strong>elicitation gap</strong> — never goes away: a passing eval proves only that <em>your</em> elicitation failed to surface the capability. A better prompt, a fine-tune, or new scaffolding can expose it later. <strong>You can demonstrate a capability is present; you cannot prove its absence.</strong> Treat negative results as upper bounds with an expiry date, not clean bills of health.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
   <h2 id="deeper">Go deeper</h2>
   <ul>
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit3/ch1.html">Technical AI Safety 3.1, Evaluations: AI can, but will it?</a>: capability versus propensity, and why a score is a floor.</li>
@@ -40,6 +44,7 @@
   </ul>
 </main>
 <footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
 </body>

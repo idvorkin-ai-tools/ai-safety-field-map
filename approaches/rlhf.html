@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="paper.css" />
+<script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
+<style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
 </head>
 <body>
 <header class="bar"><div class="bar-in">
@@ -19,24 +21,26 @@
   <h1>RLHF</h1>
   <div class="authors">Reinforcement Learning from Human Feedback</div>
   <div class="paperlink"><span class="lbl">Key paper</span><a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">InstructGPT (Ouyang et al.) ↗</a></div>
-  <p class="lead">RLHF aligns a language model to human intent by learning a reward signal from human preference judgments, then optimizing the model against that learned reward — turning the unwriteable spec "be helpful and harmless" into something a policy can be trained on.</p>
+  <p class="lead"><span class="term" data-term="rlhf">RLHF</span> aligns a language model to human intent by learning a reward signal from human preference judgments, then optimizing the model against that learned reward — turning the unwriteable spec "be helpful and harmless" into something a policy can be trained on.</p>
   <h2 id="the-pipeline">The pipeline</h2>
   <p>Three stages, run in sequence on a pretrained base model:</p>
   <ul>
-    <li><strong>1. Supervised fine-tuning (SFT).</strong> Fine-tune the base model on a dataset of high-quality demonstrations — human-written responses to prompts — to get a reasonable starting policy.</li>
-    <li><strong>2. Reward model (RM).</strong> Collect human <strong>preference comparisons</strong> (labelers rank several model outputs for the same prompt) and train a separate model to predict which output a human would prefer. The RM compresses messy human judgment into a single scalar reward.</li>
-    <li><strong>3. RL optimization.</strong> Use reinforcement learning — typically <strong>PPO</strong> — to optimize the SFT policy to maximize the RM's predicted reward, with a KL penalty against the SFT model to keep outputs from drifting into reward-model blind spots.</li>
+    <li><strong>1. <span class="term" data-term="fine-tuning">Supervised fine-tuning</span> (SFT).</strong> Fine-tune the base model on a dataset of high-quality demonstrations — human-written responses to prompts — to get a reasonable starting policy.</li>
+    <li><strong>2. <span class="term" data-term="reward-model">Reward model</span> (RM).</strong> Collect human <strong><span class="term" data-term="pairwise-comparison">preference comparisons</span></strong> (labelers rank several model outputs for the same prompt) and train a separate model to predict which output a human would prefer. The RM compresses messy human judgment into a single scalar reward.</li>
+    <li><strong>3. RL optimization.</strong> Use reinforcement learning — typically <strong>PPO</strong> — to optimize the SFT policy to maximize the RM's predicted reward, with a <span class="term" data-term="kl-penalty">KL penalty</span> against the SFT model to keep outputs from drifting into reward-model blind spots.</li>
   </ul>
   <h2 id="why-it-works">Why it works</h2>
   <p>"Be helpful" is far easier to <strong>recognize</strong> than to <strong>write down</strong>. RLHF exploits that asymmetry: humans need only compare outputs, and the reward model generalizes those comparisons to unseen prompts. The payoff is large. InstructGPT showed that a <strong>1.3B</strong>-parameter aligned model produced outputs human labelers preferred over the <strong>175B</strong> GPT-3 base model — roughly 100× smaller — while also improving truthfulness and cutting toxic generations, with little regression on standard NLP benchmarks once pretraining data was mixed back into the RL step (without that mix, scores dropped: <a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-capability-alignment.html#tax">the alignment tax</a>).</p>
   <h2 id="where-it-runs-out-of-road">Where it runs out of road</h2>
   <p>RLHF is bounded by <strong>what humans can evaluate</strong>. Its known failure modes:</p>
   <ul>
-    <li><strong>Reward-model overoptimization (Goodharting).</strong> Push PPO hard enough and the policy exploits gaps in the RM, scoring high reward while degrading on true quality — the KL penalty mitigates but doesn't eliminate this.</li>
-    <li><strong>Sycophancy.</strong> Optimizing for human approval rewards answers that <em>sound</em> agreeable or confident over answers that are correct.</li>
-    <li><strong>Evaluation ceiling.</strong> On tasks too hard for labelers to judge, the preference signal becomes unreliable — and it does nothing to surface <strong>deceptive alignment</strong>, where a model behaves well only while supervised.</li>
+    <li><strong>Reward-model overoptimization (<span class="term" data-term="goodharts-law">Goodharting</span>).</strong> Push PPO hard enough and the policy exploits gaps in the RM, scoring high reward while degrading on true quality — the KL penalty mitigates but doesn't eliminate this.</li>
+    <li><strong><span class="term" data-term="sycophancy">Sycophancy</span>.</strong> Optimizing for human approval rewards answers that <em>sound</em> agreeable or confident over answers that are correct.</li>
+    <li><strong>Evaluation ceiling.</strong> On tasks too hard for labelers to judge, the preference signal becomes unreliable — and it does nothing to surface <strong><span class="term" data-term="deceptive-alignment">deceptive alignment</span></strong>, where a model behaves well only while supervised.</li>
   </ul>
-  <p>These limits motivate <strong>scalable oversight</strong> and approaches that reduce the human-labeling bottleneck, such as <strong>Constitutional AI / RLAIF</strong>. The technique's roots trace to <a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep RL from Human Preferences (Christiano et al., 2017) ↗</a>.</p>
+  <p>These limits motivate <strong><span class="term" data-term="scalable-oversight">scalable oversight</span></strong> and approaches that reduce the human-labeling bottleneck, such as <strong>Constitutional AI / <span class="term" data-term="rlaif">RLAIF</span></strong>. The technique's roots trace to <a href="https://arxiv.org/abs/1706.03741" target="_blank" rel="noopener">Deep RL from Human Preferences (Christiano et al., 2017) ↗</a>.</p>
+  <h2 id="definitions">Definitions</h2>
+  <div data-terms-list></div>
   <h2 id="deeper">Go deeper</h2>
   <ul>
     <li><a class="lnk" href="https://idvorkin-ai-tools.github.io/technical-ai-safety-field-map/unit2/ch3.html">Technical AI Safety 2.3, Teaching AI right from wrong</a>: the full pipeline with the reward-model loss and the KL trade-off.</li>
@@ -46,6 +50,7 @@
   </ul>
 </main>
 <footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written June 2026 · verify against the source.</footer>
+<script src="https://idvorkin-ai-tools.github.io/assets/terms.js" defer></script>
 <!-- Private comments mode, inert unless ?annotate=1 (see assets/annotate.js in idvorkin-ai-tools.github.io) -->
 <script src="https://idvorkin-ai-tools.github.io/assets/annotate.js" data-branch="add-ai-safety-map" defer></script>
 </body>
