@@ -149,12 +149,14 @@
 </style>
 <script>try{var m=localStorage.getItem('aitools-mode')||localStorage.getItem('llm-judges-mode');if(m==='tech'||m==='eli5')document.documentElement.setAttribute('data-'+m,'on')}catch(e){}</script>
 <style>html:is([data-tech="on"],[data-eli5="on"]) .plain-only,html:not([data-tech="on"]) .tech-only,html:not([data-eli5="on"]) .eli5-only,html[data-tech="on"] .no-tech{display:none!important}</style>
+<style>.front-door{margin:0 auto 0 14px;font-family:'IBM Plex Mono',monospace;font-size:12px;white-space:nowrap;color:inherit;opacity:.72;text-decoration:none}.front-door:hover{opacity:1}@media(max-width:560px){header .bar-in,header .nav-in{flex-wrap:wrap;row-gap:6px}}</style>
 </head>
 <body>
 
 <header class="nav">
   <div class="nav-in">
     <div class="brand"><span class="dot"></span>AI&nbsp;SAFETY&nbsp;//&nbsp;FIELD&nbsp;MAP</div>
+  <a class="front-door" href="https://idvorkin-ai-tools.github.io/safety.html">&larr; Front Door</a>
     <nav class="nav-links">
       <a href="#problem">00·problem</a>
       <a href="#failures">01·failures</a>
@@ -174,14 +176,7 @@
   <main style="padding-top:0">
     <div class="kicker">A technical field map for engineers crossing into AI safety</div>
     <h1>Capability is racing.<br>Can we keep it <span class="pos">aligned</span>?</h1>
-    <p class="sub plain-only">As models get more capable, the hard part isn't making them do more — it's making them reliably want what we want, and proving it. This is the map: the failure modes, the canon, the alignment techniques, interpretability, evals, and governance — with a page on each and the source pinned at the top.</p>
-    <p class="sub tech-only">Training optimizes a proxy (a loss, a learned reward model, a preference score), and a stronger optimizer finds more of the gap between that proxy and the intended behavior. The map sorts the field by that gap: outer alignment (the wrong objective), inner alignment (a learned goal that differs from the objective) and scalable oversight (supervising a model you can no longer check), then the training methods, interpretability tools, dangerous-capability evals and governance aimed at each.</p>
-    <p class="sub eli5-only">People are building computer helpers that get smarter every year. The hard part is making sure a helper wants what we want, even once it is smart enough to fool us. This map is a tour of the ways that can go wrong and the tools people use to stop it.</p>
-    <div class="prompt-line mono">
-      <span class="pmt">align@frontier:~$</span>
-      <span>name the failure · read the canon · learn the techniques · measure the risk</span>
-      <span class="cursor"></span>
-    </div>
+    <p class="sub">The field by topic, one page per idea: failures, the canon, techniques, interpretability, evals and governance. New to AI safety? Start at the <a class="lnk" href="https://idvorkin-ai-tools.github.io/safety.html">Front Door</a> for what safety and alignment mean, the four risks and how each is assessed.</p>
     <div class="legend">
       <span class="legend-tag t-off">▲ amber = capability / risk</span>
       <span class="legend-tag t-def">▼ cyan = alignment / safety</span>
@@ -197,7 +192,7 @@
   <h2 class="reveal">Why alignment is hard — and why capability doesn't solve it</h2>
   <p class="reveal lead">We train models by optimizing a proxy — a loss, a reward, a <span class="term" data-term="reward-model">preference model</span> — not the thing we actually want. A capable optimizer will exploit every gap between the proxy and our intent, and the gaps don't shrink as the model gets smarter; they get harder to see. The result is a control problem that's distinct from a capability problem: a more powerful system is not automatically a safer one.</p>
   <div class="callout reveal">Three ideas to hold the whole map together: <strong><span class="term" data-term="inner-outer-alignment">outer alignment</span></strong> (is the objective we specified actually what we want?), <strong>inner alignment</strong> (does the trained model actually pursue that objective, or a correlated proxy?), and <strong><span class="term" data-term="scalable-oversight">scalable oversight</span></strong> (how do we supervise systems that know more than we do?). Almost every page here is an attack on, or a defense of, one of these three.</div>
-  <p class="reveal">For measured cases of capability and alignment coming apart, see the hub's <a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-capability-alignment.html">capability vs alignment bridge</a>. This map is one of a family; the <a class="lnk" href="https://idvorkin-ai-tools.github.io/safety.html">AI safety hub</a> shows them all with a reading order.</p>
+  <p class="reveal">For measured cases of capability and alignment coming apart, see the hub's <a class="lnk" href="https://idvorkin-ai-tools.github.io/bridge-capability-alignment.html">capability vs alignment bridge</a>. This map is one of a family; the <a class="lnk" href="https://idvorkin-ai-tools.github.io/safety.html">Front Door</a> shows them all with a reading order.</p>
 </section>
 
 <!-- 01 FAILURES -->
