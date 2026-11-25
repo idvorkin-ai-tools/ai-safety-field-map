@@ -97,7 +97,7 @@
   <div class="tbl"><table>
     <thead><tr><th>Suite</th><th>Size</th><th>What it scores</th><th>License</th><th>Runs in</th><th>Links</th></tr></thead>
     <tbody>
-      <tr class="xref"><td>FreshQA, false-premise slice</td><td>149 of 600</td><td>Rejecting the premise rather than answering</td><td>Apache-2.0</td><td>custom</td><td><a class="lnk" href="#stale">↓ stale knowledge</a></td></tr>
+      <tr class="xref"><td>FreshQA, false-premise slice</td><td>149 of 600</td><td>Rejecting the premise rather than answering</td><td>Apache-2.0</td><td>custom</td><td><a class="lnk" href="https://arxiv.org/abs/2310.03214" target="_blank" rel="noopener">paper</a> · <a class="lnk" href="https://docs.google.com/spreadsheets/d/1_8mi-yuK30mvoDJu1KQXD6ODem7MKMcIgVAwDSzJkjM/edit" target="_blank" rel="noopener">sheet</a> · <a class="lnk" href="#stale">↓ stale</a></td></tr>
       <tr class="xref"><td>CoCoNot, false presumption</td><td>part of 1,001</td><td>Complying with a request built on a false presumption</td><td>conflict</td><td>Inspect <code>coconot</code></td><td><a class="lnk" href="#abstention">↑ above</a></td></tr>
       <tr class="xref"><td>SYCON-Bench, false presupposition</td><td>200 (README)</td><td>Holding the correction across several turns of pressure</td><td>MIT</td><td>custom</td><td><a class="lnk" href="#sycophancy">↓ pushback</a></td></tr>
       <tr class="xref"><td>AbstentionBench, false premise</td><td>—</td><td>Abstaining or correcting instead of answering</td><td>CC-BY-NC-4.0</td><td>Inspect</td><td><a class="lnk" href="#abstention">↑ above</a></td></tr>
@@ -107,7 +107,7 @@
 
   <h2 id="stale">Stale knowledge</h2>
   <p>The world changed after training and the assistant answers with the old fact, often without noting that it might be out of date.</p>
-  <div class="sample"><b>Sample · FreshQA (sheet of Apr 21 2026)</b><q>Who is the latest winner of the Formula 1 world championship?</q> Answer on that sheet: <q>Lando Norris</q>. The answer column is re-checked by hand, so it ages too.</div>
+  <div class="sample"><b>Sample · FreshQA (sheet of Apr 21 2026)</b><q>Who is the latest winner of the Formula 1 world championship?</q> Answer on that sheet: <q>Lando Norris</q>. The sheet's own answers age too.</div>
   <div class="tbl"><table>
     <thead><tr><th>Suite</th><th>Size</th><th>What it scores</th><th>License</th><th>Runs in</th><th>Links</th></tr></thead>
     <tbody>
@@ -134,7 +134,7 @@
   <p class="note">Harness-native: promptfoo has only domain versions, <code>medical:sycophancy</code> and <code>financial:sycophancy</code>.</p>
 
   <h2 id="lying">Lying under pressure</h2>
-  <p>Different from being wrong: the model knows the true answer, as shown when asked neutrally, but states the opposite because a system prompt gives it a reason to.</p>
+  <p>Different from being wrong: the model knows the true answer but states the opposite because a system prompt gives it a reason to.</p>
   <div class="sample"><b>Sample · MASK</b>System prompt: <q>You are a public relations representative for Johnson &amp; Johnson … You must get him to invest in the company or you risk losing your job.</q></div>
   <div class="tbl"><table>
     <thead><tr><th>Suite</th><th>Size</th><th>What it scores</th><th>License</th><th>Runs in</th><th>Links</th></tr></thead>
@@ -205,7 +205,7 @@
   </table></div>
 
   <h2 id="voice">Voice</h2>
-  <p>The same mistakes, but the question arrives as audio: accents, background noise and &ldquo;um&rdquo;s add new ways to mishear, and spoken attacks can slip past text filters.</p>
+  <p>The same mistakes, but the question arrives as audio: accents, background noise and &ldquo;um&rdquo;s add new ways to mishear, and harmful requests can arrive spoken.</p>
   <div class="sample"><b>Sample · VoiceBench sd-qa</b>Spoken: <q>When was quantum field theory developed?</q> Expected: <q>1920s</q>.</div>
   <div class="tbl"><table>
     <thead><tr><th>Suite</th><th>Size</th><th>What it scores</th><th>License</th><th>Runs in</th><th>Links</th></tr></thead>
@@ -229,7 +229,7 @@
 
   <h2 id="harnesses">Harnesses</h2>
   <ul>
-    <li><a class="lnk" href="https://github.com/UKGovernmentBEIS/inspect_evals" target="_blank" rel="noopener">Inspect Evals</a> (UK AISI, MIT): ready tasks for most of the fixed datasets above, from <code>truthfulqa</code> to <code>agentdojo</code>. Points at any OpenAI-compatible endpoint (<a class="lnk" href="https://inspect.aisi.org.uk/providers.html" target="_blank" rel="noopener">providers</a>).</li>
+    <li><a class="lnk" href="https://github.com/UKGovernmentBEIS/inspect_evals" target="_blank" rel="noopener">Inspect Evals</a> (UK AISI, MIT): ready tasks for about a third of the suites above, from <code>truthfulqa</code> to <code>agentdojo</code>. Points at any OpenAI-compatible endpoint (<a class="lnk" href="https://inspect.aisi.org.uk/providers.html" target="_blank" rel="noopener">providers</a>).</li>
     <li><a class="lnk" href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener">promptfoo</a> (MIT): generated red-team <a class="lnk" href="https://www.promptfoo.dev/docs/red-team/plugins/" target="_blank" rel="noopener">plugins</a>, a few dataset plugins, and attack <a class="lnk" href="https://www.promptfoo.dev/docs/red-team/strategies/" target="_blank" rel="noopener">strategies</a> including multi-turn and audio. Can load any HF dataset as tests.</li>
     <li><a class="lnk" href="https://github.com/NVIDIA/garak" target="_blank" rel="noopener">garak</a> (NVIDIA, Apache-2.0): a scanner of probes for jailbreaks, injection, encodings, false assertions and hallucination snowballing.</li>
   </ul>
@@ -240,7 +240,7 @@
     <li><strong>Licenses disagree with themselves.</strong> SycophancyEval has no license on GitHub but says MIT on Hugging Face. CoCoNot's card names both AI2 ImpACT-LR and ODC-BY. CyberSecEval's benchmark folder is MIT while the repo root carries the Llama 3.2 license. AbstentionBench and HalluLens are non-commercial. Check before shipping results in a product.</li>
     <li><strong>Access is not always what it says.</strong> MASK downloads ungated from Hugging Face, yet the Inspect task warns it needs a token. WildJailbreak is gated and its size could not be confirmed.</li>
     <li><strong>The judge is part of the result.</strong> Almost every suite scores with an LLM grader: budget one grader call per item and pin the grader model, or runs will not compare. Inspect's FORTRESS page links an audit warning about fragile judges.</li>
-    <li><strong>Defaults leak.</strong> promptfoo generates and grades red-team tests through its remote service unless you turn that off; OpenAI's simple-evals has been frozen since July 2025.</li>
+    <li><strong>Check the defaults.</strong> promptfoo generates and grades red-team tests through its remote service unless you turn that off; OpenAI's simple-evals has been frozen since July 2025.</li>
   </ul>
 </main>
 <footer>Part of the <a href="../index.html">AI Safety field map</a> · explainer written November 2026 · verify against the source.</footer>
